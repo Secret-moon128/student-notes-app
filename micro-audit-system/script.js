@@ -16,6 +16,8 @@ const auditList = document.getElementById("auditList");
 
 const totalAudits = document.getElementById("totalAudits");
 
+const pendingAudits = document.getElementById("pendingAudits");
+
 const passedAudits = document.getElementById("passedAudits");
 
 const failedAudits = document.getElementById("failedAudits");
@@ -516,9 +518,15 @@ function updateStats(){
         audit => audit.status === "fail"
     ).length;
 
+    const pending = audits.filter(
+        audit => audit.status === "pending"
+    ).length;
+
     passedAudits.textContent = passed;
 
     failedAudits.textContent = failed;
+
+    pendingAudits.textContent = pending;
 }
 
 /* Save Local Storage */

@@ -177,6 +177,10 @@ body{
     margin-bottom:10px;
 }
 
+.pending h2{
+    color:#f59e0b;
+}
+
 .pass h2{
     color:#16a34a;
 }
