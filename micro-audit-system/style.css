@@ -189,6 +189,10 @@ body{
     color:#dc2626;
 }
 
+.completion h2{
+    color:#2563eb;
+}
+
 /* Audit Cards */
 
 .audit-list{

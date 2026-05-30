@@ -22,6 +22,9 @@ const passedAudits = document.getElementById("passedAudits");
 
 const failedAudits = document.getElementById("failedAudits");
 
+const completionPercentage =
+    document.getElementById("completionPercentage");
+
 const themeToggle = document.getElementById("themeToggle");
 
 const searchInput = document.getElementById("searchInput");
@@ -522,11 +525,19 @@ function updateStats(){
         audit => audit.status === "pending"
     ).length;
 
+    const completed = passed + failed;
+
+    const completion = audits.length === 0
+        ? 0
+        : Math.round((completed / audits.length) * 100);
+
     passedAudits.textContent = passed;
 
     failedAudits.textContent = failed;
 
     pendingAudits.textContent = pending;
+
+    completionPercentage.textContent = `${completion}%`;
 }
 
 /* Save Local Storage */
