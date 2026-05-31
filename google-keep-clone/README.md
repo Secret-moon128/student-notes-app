@@ -137,6 +137,7 @@ Open a Pull Request with:
 | **`program.html`** | HTML | **[Protected]** Random Coding Challenge interface where users solve programming problems. |
 | **`program.js`** | JavaScript | Manages the challenge pool, live code execution/testing, and scoring for the Coding Game. |
 | **`output.html`** | HTML | **[Protected]** Guess Output Game featuring glassmorphism UI and code prediction logic. |
+| **`Quiz.html`** | HTML | **[Protected]** Coding Quiz Game with multiple categories and performance review. |
 
 ---
 
