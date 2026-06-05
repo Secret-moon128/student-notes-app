@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GPACraft Pro | Student GPA Calculator & Performance Dashboard</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- ChartJS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="black-gold-theme">
+  <div class="app-container">
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <i data-lucide="graduation-cap"></i>
+        </div>
+        <div class="logo-text">
+          <h1>GPACraft Pro</h1>
+          <span>Academic Dashboard</span>
+        </div>
+      </div>
+      
+      <div class="header-actions">
+        <!-- Grading Scale Selector -->
+        <div class="grading-scale-picker">
+          <label for="grading-scale">Scale:</label>
+          <select id="grading-scale">
+            <option value="4.0" selected>4.0 Scale (US Standard)</option>
+            <option value="10.0">10.0 Scale (Technical Standard)</option>
+          </select>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- Utility buttons -->
+        <button id="import-btn" class="btn btn-secondary btn-icon" title="Import JSON data">
+          <i data-lucide="upload"></i>
+        </button>
+        <input type="file" id="import-file" accept=".json" style="display: none;">
+        
+        <button id="export-btn" class="btn btn-secondary btn-icon" title="Export JSON data">
+          <i data-lucide="download"></i>
+        </button>
+        
+        <button id="clear-data-btn" class="btn btn-secondary btn-icon" title="Clear all calculations">
+          <i data-lucide="trash-2"></i>
+        </button>
+      </div>
+    </header>
+    
+    <!-- Main Workspace Grid -->
+    <main class="app-workspace">
+      <!-- Left Column: Courses & Semesters Editor -->
+      <section class="editor-column">
+        <div class="column-header">
+          <h2>Academic Semesters</h2>
+          <button id="add-semester-btn" class="btn btn-primary btn-icon-text">
+            <i data-lucide="plus"></i>
+            <span>Add Semester</span>
+          </button>
+        </div>
+        
+        <div id="semesters-container" class="semesters-list">
+          <!-- Dynamic semester panels loaded by JS -->
+        </div>
+      </section>
+      
+      <!-- Right Column: Performance Dashboard Analytics -->
+      <section class="dashboard-column">
+        <!-- Summary Cards Row -->
+        <div class="stats-cards-grid">
+          <!-- CGPA Gauge Card -->
+          <div class="stats-card cgpa-card">
+            <div class="card-glow-bg"></div>
+            <span class="card-label">Cumulative CGPA</span>
+            <div class="gpa-display">
+              <span id="cgpa-value">0.00</span>
+              <span id="cgpa-scale-label" class="scale-lbl">/ 4.00</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div id="cgpa-progress-fill" class="progress-bar-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+          
+          <!-- Credits Card -->
+          <div class="stats-card">
+            <span class="card-label">Total Credits Earned</span>
+            <div class="stat-value" id="total-credits-value">0</div>
+            <span class="stat-subtitle" id="total-courses-value">0 Courses Recorded</span>
+          </div>
+          
+          <!-- Status Card -->
+          <div class="stats-card">
+            <span class="card-label">Overall Status</span>
+            <div class="stat-value" id="academic-standing-value">N/A</div>
+            <span class="stat-subtitle" id="academic-standing-sub">Add semesters to evaluate</span>
+          </div>
+        </div>
+        
+        <!-- Target CGPA Planner Predictor -->
+        <div class="target-predictor-card">
+          <div class="card-header-with-icon">
+            <i data-lucide="target" class="target-icon"></i>
+            <h3>Target CGPA Predictor</h3>
+          </div>
+          <p class="predictor-desc">Enter your dream graduation CGPA and see the average GPA required for your future semesters.</p>
+          
+          <div class="predictor-form-grid">
+            <div class="form-group">
+              <label for="target-cgpa-input">Target CGPA Goal</label>
+              <input type="number" id="target-cgpa-input" min="1" max="10" step="0.01" placeholder="e.g. 3.8">
+            </div>
+            <div class="form-group">
+              <label for="remaining-semesters-input">Future Semesters Remaining</label>
+              <input type="number" id="remaining-semesters-input" min="1" max="12" step="1" placeholder="e.g. 4">
+            </div>
+          </div>
+          
+          <div id="predictor-output-box" class="predictor-output-alert" style="display: none;">
+            <!-- Predictive summary statement injected by JS -->
+          </div>
+        </div>
+        
+        <!-- Chart Canvas Row -->
+        <div class="charts-container-grid">
+          <!-- Line Chart Widget -->
+          <div class="chart-card">
+            <h3>GPA Performance Trend</h3>
+            <div class="chart-wrapper">
+              <canvas id="gpaTrendChart"></canvas>
+            </div>
+          </div>
+          
+          <!-- Doughnut Chart Widget -->
+          <div class="chart-card">
+            <h3>Grade Distribution Breakdown</h3>
+            <div class="chart-wrapper">
+              <canvas id="gradeDistributionChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  
+  <!-- Main Script -->
+  <script src="app.js"></script>
+</body>
+</html>
