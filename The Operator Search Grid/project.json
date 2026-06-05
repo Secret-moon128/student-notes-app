@@ -1,0 +1,17 @@
+{
+  "title": "The Operator Search Grid",
+  "description": "A cyberpunk math puzzle where you fill operator slots (+, -, *, /) from a 4x4 grid to match target results using strict PEMDAS validation, with a 25-second timer, scoring streaks, and localStorage high-score caching.",
+  "author": {
+    "name": "Girish Madarkar",
+    "github": "Girish0902"
+  },
+  "tags": [
+    "math",
+    "puzzle",
+    "vanilla-js",
+    "cyberpunk",
+    "pemdas"
+  ],
+  "entry": "index.html",
+  "thumbnail": "thumbnail.svg"
+}

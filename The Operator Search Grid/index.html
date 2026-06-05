@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Operator Search Grid</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ─── Telemetry Header ─── -->
+  <header class="telemetry">
+    <div class="stat-block">
+      <span class="stat-label">Score</span>
+      <span class="stat-value" id="score">0</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-label">Streak</span>
+      <span class="stat-value" id="streak">0</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-label">Best</span>
+      <span class="stat-value" id="best-streak">0</span>
+    </div>
+    <div class="timer-block">
+      <div class="timer-bar" id="timer-bar"></div>
+    </div>
+  </header>
+
+  <!-- ─── Equation Display ─── -->
+  <section class="equation-area">
+    <div class="equation" id="equation"></div>
+    <div class="result-target" id="result-target"></div>
+  </section>
+
+  <!-- ─── Operator Grid ─── -->
+  <main class="grid-wrap">
+    <div class="op-grid" id="op-grid"></div>
+  </main>
+
+  <!-- ─── Feedback ─── -->
+  <div class="feedback" id="feedback"></div>
+
+  <!-- ─── Controls ─── -->
+  <div class="controls">
+    <button class="btn-control" id="btn-clear">↺ Clear Path</button>
+    <button class="btn-control" id="btn-skip">⏭ Skip</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
