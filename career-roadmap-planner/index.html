@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MapCraft | Career Roadmap Planner & Progress Tracker</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- App Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <i data-lucide="map"></i>
+        </div>
+        <div class="logo-text">
+          <h1>MapCraft</h1>
+          <span>Career Roadmap Planner</span>
+        </div>
+      </div>
+      
+      <div class="header-actions">
+        <!-- Global Stats Widget -->
+        <div class="global-stats">
+          <div class="stat-item">
+            <span class="stat-lbl">Paths Explored</span>
+            <span id="stat-paths-count" class="stat-val">0</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-lbl">Total Completed</span>
+            <span id="stat-completed-skills" class="stat-val">0</span>
+          </div>
+        </div>
+        
+        <button id="reset-progress-btn" class="btn btn-secondary btn-icon-text" title="Clear all saved progress">
+          <i data-lucide="refresh-cw"></i>
+          <span>Reset All</span>
+        </button>
+        
+        <button id="theme-toggle" class="btn btn-icon" title="Toggle theme">
+          <i data-lucide="sun" class="sun-icon"></i>
+          <i data-lucide="moon" class="moon-icon"></i>
+        </button>
+      </div>
+    </header>
+    
+    <!-- Main Workspace -->
+    <main class="app-workspace">
+      <!-- Sidebar Left: Career Paths Selector -->
+      <aside class="sidebar-paths">
+        <div class="sidebar-header">
+          <h2>Select Career Path</h2>
+          <p>Choose a track to view roadmap</p>
+        </div>
+        
+        <div id="paths-list" class="paths-menu">
+          <!-- Dynamic career path buttons injected by JS -->
+        </div>
+      </aside>
+      
+      <!-- Center: Interactive Flowchart Canvas -->
+      <section class="roadmap-canvas">
+        <!-- Path Header with Progress Card -->
+        <div class="path-overview-bar">
+          <div class="path-info">
+            <h2 id="current-path-title">Frontend Developer</h2>
+            <p id="current-path-desc">Visual guide and interactive learning path for building modern web user interfaces.</p>
+          </div>
+          
+          <div class="path-progress-card">
+            <div class="progress-info">
+              <span class="progress-label">Track Progress</span>
+              <span id="progress-percentage-label" class="progress-val">0%</span>
+            </div>
+            <div class="progress-track-bg">
+              <div id="progress-bar-fill" class="progress-track-fill" style="width: 0%;"></div>
+            </div>
+            <div class="progress-meta">
+              <span id="progress-completed-meta">0 / 0 Completed</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Legend Indicator -->
+        <div class="canvas-legend">
+          <div class="legend-item"><span class="dot dot-unstarted"></span><span>Not Started</span></div>
+          <div class="legend-item"><span class="dot dot-progress"></span><span>In Progress</span></div>
+          <div class="legend-item"><span class="dot dot-completed"></span><span>Completed</span></div>
+        </div>
+        
+        <!-- Flowchart Scroll Workspace -->
+        <div class="roadmap-stages" id="roadmap-stages-container">
+          <!-- Stage groups and connected nodes generated dynamically by JS -->
+        </div>
+      </section>
+      
+      <!-- Sidebar Right: Resource Panel / Skill Drawer -->
+      <aside class="skill-detail-drawer" id="skill-detail-panel">
+        <div class="drawer-empty-state" id="drawer-empty-view">
+          <div class="empty-icon"><i data-lucide="mouse-pointer-click"></i></div>
+          <h3>Select a Skill Node</h3>
+          <p>Click any node in the roadmap to view details, checklists, and recommended learning resources.</p>
+        </div>
+        
+        <div class="drawer-content-state" id="drawer-content-view" style="display: none;">
+          <div class="drawer-header">
+            <span class="category-badge" id="skill-detail-category">Foundations</span>
+            <h3 id="skill-detail-name">HTML5 & Semantics</h3>
+            <div class="study-time-badge">
+              <i data-lucide="clock"></i>
+              <span id="skill-detail-time">~6 hours estimate</span>
+            </div>
+          </div>
+          
+          <div class="drawer-body">
+            <!-- Status selector -->
+            <div class="detail-section">
+              <label class="section-label">Mark Status</label>
+              <div class="status-btn-group">
+                <button class="btn status-btn btn-status-unstarted active" data-status="unstarted">Not Started</button>
+                <button class="btn status-btn btn-status-progress" data-status="progress">In Progress</button>
+                <button class="btn status-btn btn-status-completed" data-status="completed">Completed</button>
+              </div>
+            </div>
+            
+            <!-- Topics checklist -->
+            <div class="detail-section">
+              <label class="section-label">Sub-topics Checklist</label>
+              <div id="topics-checklist-box" class="checklist-box">
+                <!-- Checkboxes generated dynamically -->
+              </div>
+            </div>
+            
+            <!-- Curated Learning Resources -->
+            <div class="detail-section">
+              <label class="section-label">Curated Learning Resources</label>
+              <div id="resources-links-box" class="resources-box">
+                <!-- Links list generated dynamically -->
+              </div>
+            </div>
+            
+            <!-- Personal Study Notes -->
+            <div class="detail-section">
+              <label class="section-label" for="skill-notes">My Learning Notes</label>
+              <textarea id="skill-notes" rows="4" placeholder="Write down useful concepts, tips, key terms, or reminders..."></textarea>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+  
+  <!-- App JS Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

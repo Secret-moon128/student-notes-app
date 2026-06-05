@@ -1,6 +1,18 @@
 // Load transactions from localStorage or start empty
 let transactions = JSON.parse(localStorage.getItem('et_transactions')) || [];
 
+// HTML escaping utility to prevent XSS
+function escapeHTML(str) {
+  if (!str) return '';
+  return str.toString().replace(/[&<>'"]/g, tag => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    "'": '&#39;',
+    '"': '&quot;'
+  }[tag]));
+}
+
 // Run on page load
 window.onload = function () {
   renderAll();
@@ -86,7 +98,7 @@ function renderList() {
 
     li.innerHTML = `
       <div class="txn-left">
-        <span class="txn-desc">${txn.desc}</span>
+        <span class="txn-desc">${escapeHTML(txn.desc)}</span>
         <span class="txn-date">${txn.date}</span>
       </div>
       <div class="txn-right">
