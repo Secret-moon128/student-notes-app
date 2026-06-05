@@ -1,0 +1,17 @@
+{
+  "title": "Quantum Tic-Tac-Toe",
+  "description": "A cyberpunk neon-themed tic-tac-toe variant where each player can only hold 3 tokens on the board — placing a 4th removes the oldest via FIFO queue logic, with token-fade warnings and real-time win detection.",
+  "author": {
+    "name": "Girish Madarkar",
+    "github": "Girish0902"
+  },
+  "tags": [
+    "tic-tac-toe",
+    "game",
+    "vanilla-js",
+    "cyberpunk",
+    "fifo-queue"
+  ],
+  "entry": "index.html",
+  "thumbnail": "thumbnail.svg"
+}
