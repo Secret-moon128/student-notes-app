@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flash Quiz: Active Learning</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <header>
+      <h1>Flash Quiz 🧠</h1>
+      <div class="deck-selector-container">
+        <label for="deck-select">Choose Subject:</label>
+        <select id="deck-select">
+          <option value="23">History</option>
+          <option value="17">Science & Nature</option>
+          <option value="18">Computer Science</option>
+          <option value="22">Geography</option>
+          <option value="19">Mathematics</option>
+        </select>
+      </div>
+    </header>
+
+    <main id="quiz-screen">
+      <div class="progress-section">
+        <div class="progress-meta">
+          <span id="card-counter">Loading cards...</span>
+          <span id="accuracy-counter">Accuracy: 100%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div id="progress-bar-fill"></div>
+        </div>
+      </div>
+
+      <div class="flashcard-container">
+        <div class="flashcard" id="flashcard">
+          <div class="card-face card-front">
+            <p class="card-label">QUESTION</p>
+            <h2 id="question-text">Fetching live study deck...</h2>
+            <button class="btn btn-flip" id="flip-btn-front">FLIP CARD</button>
+          </div>
+          <div class="card-face card-back">
+            <p class="card-label">ANSWER</p>
+            <h2 id="answer-text">Loading answer...</h2>
+            <div class="action-buttons">
+              <button class="btn btn-review" id="review-btn">Review Later 🔄</button>
+              <button class="btn btn-master" id="master-btn">Mastered It 👍</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="hotkey-hint">Tap the card or press <kbd>Spacebar</kbd> to see the answer.</p>
+    </main>
+
+    <section id="results-screen" class="hidden">
+      <h2>Session Complete! 🎉</h2>
+      <p id="results-summary">Awesome job studying!</p>
+      
+      <div class="results-stats">
+        <div class="stat-box">
+          <span class="stat-num" id="final-mastered">0</span>
+          <span class="stat-label">Mastered</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num" id="final-review">0</span>
+          <span class="stat-label">To Review</span>
+        </div>
+      </div>
+
+      <div class="results-actions">
+        <button class="btn btn-flip" id="restart-btn">Fetch New Cards</button>
+        <button class="btn btn-master hidden" id="study-review-btn">Study Review Pile Now</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
