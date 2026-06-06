@@ -1,0 +1,18 @@
+{
+  "title": "Simulated Crypto Trading Ledger",
+  "description": "A Bloomberg-style trading terminal simulator featuring random-walk price simulation, live Canvas sparkline chart, buy/sell order execution with guard clauses, transaction history ledger, and localStorage persistence. Built with vanilla HTML5, CSS3, and JavaScript ES6+.",
+  "author": {
+    "name": "Girish Madarkar",
+    "github": "Girish0902"
+  },
+  "tags": [
+    "trading",
+    "simulator",
+    "crypto",
+    "canvas",
+    "vanilla-js",
+    "finance"
+  ],
+  "entry": "index.html",
+  "thumbnail": "thumbnail.svg"
+}
