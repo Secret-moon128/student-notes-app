@@ -53,6 +53,9 @@ Click the **Fork** button at the top-right corner.
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/student-notes-app.git
+cd student-notes-app
+npm install
+npm run dev
 ```
 
 ### 3. Create a New Project Folder
