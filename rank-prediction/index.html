@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rank Prediction Card | Exam Simulator | NSOC Contribution</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255,210,0,0.5);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+        }
+
+        /* Main Grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        /* Cards Common Style */
+        .card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 25px;
+            transition: 0.3s;
+        }
+
+        .card-title {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 12px;
+        }
+
+        /* Rank Card */
+        .rank-card {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255,210,0,0.15), rgba(255,100,0,0.1));
+            border: 1px solid rgba(255,210,0,0.3);
+        }
+
+        .rank-number {
+            font-size: 72px;
+            font-weight: bold;
+            color: #ffd200;
+            text-shadow: 0 0 20px rgba(255,210,0,0.5);
+            margin: 20px 0;
+        }
+
+        .rank-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+        }
+
+        .percentile {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+        }
+
+        .percentile-value {
+            color: #00ffcc;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Accuracy Meter */
+        .accuracy-section {
+            margin-top: 20px;
+        }
+
+        .meter-label {
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .meter-bar {
+            height: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff6b6b, #ffd200, #00ffcc);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* Subject Performance */
+        .subject-item {
+            margin-bottom: 15px;
+        }
+
+        .subject-header {
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .subject-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .subject-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* Score Input */
+        .score-input-group {
+            margin-bottom: 20px;
+        }
+
+        .score-input-group label {
+            display: block;
+            color: rgba(255,255,255,0.7);
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .score-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.1);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .score-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #ffd200;
+            cursor: pointer;
+        }
+
+        .score-value {
+            color: #ffd200;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        /* Mock Test Input */
+        .mock-input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .mock-input {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .update-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #ffd200, #ff9800);
+            color: #333;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .update-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Motivational Message */
+        .motivation-card {
+            grid-column: span 2;
+            text-align: center;
+        }
+
+        .motivation-text {
+            color: #00ffcc;
+            font-size: 18px;
+            font-weight: 500;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Leaderboard */
+        .leaderboard-list {
+            margin-top: 15px;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: white;
+            font-size: 13px;
+        }
+
+        .leaderboard-rank {
+            color: #ffd200;
+            font-weight: bold;
+        }
+
+        .leaderboard-score {
+            color: #00ffcc;
+        }
+
+        /* Full Width */
+        .full-width {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            .motivation-card, .full-width {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Rank Prediction Card</h1>
+            <div class="subtitle">Exam Simulator | Predict Your Rank & Track Performance</div>
+        </div>
+
+        <div class="dashboard">
+            <!-- Rank Card -->
+            <div class="card rank-card">
+                <div class="card-title">🏆 Expected Rank</div>
+                <div class="rank-number" id="expectedRank">#1,250</div>
+                <div class="rank-label">Out of 50,000+ Students</div>
+                <div class="percentile">
+                    <div class="percentile-value" id="percentile">97.5</div>
+                    <div class="rank-label">Percentile</div>
+                </div>
+            </div>
+
+            <!-- Accuracy Meter Card -->
+            <div class="card">
+                <div class="card-title">📊 Overall Accuracy</div>
+                <div class="accuracy-section">
+                    <div class="meter-label">
+                        <span>Accuracy Score</span>
+                        <span id="accuracyPercent">0%</span>
+                    </div>
+                    <div class="meter-bar">
+                        <div class="meter-fill" id="accuracyFill"></div>
+                    </div>
+                </div>
+                <div class="score-input-group" style="margin-top: 20px;">
+                    <label>🎯 Set Your Mock Test Score (0-100%)</label>
+                    <input type="range" id="scoreSlider" class="score-slider" min="0" max="100" value="65">
+                    <div class="score-value" id="scoreValue">65%</div>
+                </div>
+            </div>
+
+            <!-- Subject Performance Card -->
+            <div class="card">
+                <div class="card-title">📚 Subject-wise Performance</div>
+                <div class="subject-item">
+                    <div class="subject-header">
+                        <span>📐 Mathematics</span>
+                        <span id="mathScore">65%</span>
+                    </div>
+                    <div class="subject-bar">
+                        <div class="subject-fill" id="mathFill" style="width: 65%; background: #ff6b6b;"></div>
+                    </div>
+                </div>
+                <div class="subject-item">
+                    <div class="subject-header">
+                        <span>⚛️ Physics</span>
+                        <span id="physicsScore">65%</span>
+                    </div>
+                    <div class="subject-bar">
+                        <div class="subject-fill" id="physicsFill" style="width: 65%; background: #ffd200;"></div>
+                    </div>
+                </div>
+                <div class="subject-item">
+                    <div class="subject-header">
+                        <span>🧪 Chemistry</span>
+                        <span id="chemistryScore">65%</span>
+                    </div>
+                    <div class="subject-bar">
+                        <div class="subject-fill" id="chemistryFill" style="width: 65%; background: #00ffcc;"></div>
+                    </div>
+                </div>
+                <div class="subject-item">
+                    <div class="subject-header">
+                        <span>📖 English</span>
+                        <span id="englishScore">65%</span>
+                    </div>
+                    <div class="subject-bar">
+                        <div class="subject-fill" id="englishFill" style="width: 65%; background: #4d96ff;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mock Test Input Card -->
+            <div class="card">
+                <div class="card-title">📝 Mock Test Score Entry</div>
+                <div class="score-input-group">
+                    <label>📊 Enter your mock test score</label>
+                    <div class="mock-input-group">
+                        <input type="number" id="mockScoreInput" class="mock-input" placeholder="Score (0-100)" min="0" max="100">
+                        <button class="update-btn" id="updateMockBtn">Update</button>
+                    </div>
+                </div>
+                <div class="score-input-group">
+                    <label>🎯 Target Rank</label>
+                    <div class="mock-input-group">
+                        <input type="number" id="targetRankInput" class="mock-input" placeholder="Target Rank" value="500">
+                        <button class="update-btn" id="setTargetBtn">Set Target</button>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; color: rgba(255,255,255,0.6); font-size: 12px;">
+                    💡 Target Rank: <span id="targetRankDisplay">#500</span>
+                </div>
+            </div>
+
+            <!-- Motivational Message -->
+            <div class="card motivation-card">
+                <div class="card-title">💪 Motivational Message</div>
+                <div class="motivation-text" id="motivationText">
+                    "Keep pushing! Every point matters in the final rank!"
+                </div>
+            </div>
+
+            <!-- Leaderboard Simulation -->
+            <div class="card full-width">
+                <div class="card-title">🏅 Leaderboard Simulation (Top 10)</div>
+                <div class="leaderboard-list" id="leaderboardList">
+                    <!-- Dynamic leaderboard -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State variables
+        let currentScore = 65;
+        let targetRank = 500;
+        
+        // Subject weights
+        const subjects = {
+            math: { weight: 0.25, name: "Mathematics", score: 65 },
+            physics: { weight: 0.25, name: "Physics", score: 65 },
+            chemistry: { weight: 0.25, name: "Chemistry", score: 65 },
+            english: { weight: 0.25, name: "English", score: 65 }
+        };
+        
+        // Calculate rank based on score
+        function calculateRank(score) {
+            // Formula: Higher score = Better rank
+            // Score 100 = Rank #1, Score 0 = Rank #50000
+            const maxRank = 50000;
+            const minRank = 1;
+            
+            let rank = Math.floor(maxRank * (1 - (score / 100)) + minRank);
+            rank = Math.min(maxRank, Math.max(minRank, rank));
+            return rank;
+        }
+        
+        // Calculate percentile
+        function calculatePercentile(rank) {
+            const totalStudents = 50000;
+            return ((totalStudents - rank) / totalStudents * 100).toFixed(1);
+        }
+        
+        // Calculate overall accuracy from subjects
+        function calculateOverallAccuracy() {
+            let total = 0;
+            for(let sub in subjects) {
+                total += subjects[sub].score;
+            }
+            return total / 4;
+        }
+        
+        // Update subject scores based on overall score
+        function updateSubjectScores(overallScore) {
+            // Add some variation to make it realistic
+            subjects.math.score = Math.min(100, Math.max(0, overallScore + (Math.random() * 10 - 5)));
+            subjects.physics.score = Math.min(100, Math.max(0, overallScore + (Math.random() * 10 - 5)));
+            subjects.chemistry.score = Math.min(100, Math.max(0, overallScore + (Math.random() * 10 - 5)));
+            subjects.english.score = Math.min(100, Math.max(0, overallScore + (Math.random() * 10 - 5)));
+            
+            // Normalize to make average match overallScore
+            const currentAvg = (subjects.math.score + subjects.physics.score + subjects.chemistry.score + subjects.english.score) / 4;
+            const adjustment = overallScore - currentAvg;
+            
+            subjects.math.score = Math.min(100, Math.max(0, subjects.math.score + adjustment));
+            subjects.physics.score = Math.min(100, Math.max(0, subjects.physics.score + adjustment));
+            subjects.chemistry.score = Math.min(100, Math.max(0, subjects.chemistry.score + adjustment));
+            subjects.english.score = Math.min(100, Math.max(0, subjects.english.score + adjustment));
+        }
+        
+        // Update all UI
+        function updateAll() {
+            const rank = calculateRank(currentScore);
+            const percentile = calculatePercentile(rank);
+            const accuracy = currentScore;
+            
+            // Update rank display
+            document.getElementById('expectedRank').textContent = `#${rank.toLocaleString()}`;
+            document.getElementById('percentile').textContent = percentile;
+            
+            // Update accuracy meter
+            document.getElementById('accuracyPercent').textContent = `${Math.round(accuracy)}%`;
+            document.getElementById('accuracyFill').style.width = `${accuracy}%`;
+            
+            // Update score slider and value
+            document.getElementById('scoreSlider').value = currentScore;
+            document.getElementById('scoreValue').textContent = `${Math.round(currentScore)}%`;
+            
+            // Update subject displays
+            document.getElementById('mathScore').textContent = `${Math.round(subjects.math.score)}%`;
+            document.getElementById('physicsScore').textContent = `${Math.round(subjects.physics.score)}%`;
+            document.getElementById('chemistryScore').textContent = `${Math.round(subjects.chemistry.score)}%`;
+            document.getElementById('englishScore').textContent = `${Math.round(subjects.english.score)}%`;
+            
+            document.getElementById('mathFill').style.width = `${subjects.math.score}%`;
+            document.getElementById('physicsFill').style.width = `${subjects.physics.score}%`;
+            document.getElementById('chemistryFill').style.width = `${subjects.chemistry.score}%`;
+            document.getElementById('englishFill').style.width = `${subjects.english.score}%`;
+            
+            // Update motivation message
+            updateMotivationMessage(accuracy, rank);
+            
+            // Update leaderboard
+            updateLeaderboard(rank);
+            
+            // Update target rank display
+            document.getElementById('targetRankDisplay').textContent = `#${targetRank.toLocaleString()}`;
+            
+            // Show target progress
+            showTargetProgress(rank);
+        }
+        
+        // Update motivation message
+        function updateMotivationMessage(accuracy, rank) {
+            const messages = [
+                { condition: accuracy >= 90, text: "🏆 Outstanding! You're on fire! Keep this momentum! 🔥" },
+                { condition: accuracy >= 75, text: "🎯 Great job! You're in the top tier! Aim higher! 💪" },
+                { condition: accuracy >= 60, text: "📈 Good progress! Consistent effort will take you to the top! ⭐" },
+                { condition: accuracy >= 45, text: "📚 Keep going! Every mistake is a learning opportunity! 🌱" },
+                { condition: accuracy >= 30, text: "💪 Don't give up! Hard work pays off! Stay focused! 🎯" },
+                { condition: true, text: "🌟 Believe in yourself! You can achieve anything with dedication! ✨" }
+            ];
+            
+            let message = messages.find(m => m.condition)?.text || messages[messages.length-1].text;
+            for(let m of messages) {
+                if(m.condition(accuracy)) {
+                    message = m.text;
+                    break;
+                }
+            }
+            
+            // Override condition check
+            if(accuracy >= 90) message = "🏆 Outstanding! You're on fire! Keep this momentum! 🔥";
+            else if(accuracy >= 75) message = "🎯 Great job! You're in the top tier! Aim higher! 💪";
+            else if(accuracy >= 60) message = "📈 Good progress! Consistent effort will take you to the top! ⭐";
+            else if(accuracy >= 45) message = "📚 Keep going! Every mistake is a learning opportunity! 🌱";
+            else if(accuracy >= 30) message = "💪 Don't give up! Hard work pays off! Stay focused! 🎯";
+            else message = "🌟 Believe in yourself! You can achieve anything with dedication! ✨";
+            
+            document.getElementById('motivationText').textContent = message;
+        }
+        
+        // Show target progress
+        function showTargetProgress(currentRank) {
+            const targetRankNum = targetRank;
+            const progressDiv = document.getElementById('targetRankDisplay');
+            
+            if(currentRank <= targetRankNum) {
+                progressDiv.innerHTML = `#${targetRankNum.toLocaleString()} 🎉 Target Achieved!`;
+                progressDiv.style.color = '#00ffcc';
+            } else {
+                progressDiv.innerHTML = `#${targetRankNum.toLocaleString()}`;
+                progressDiv.style.color = '#ffd200';
+            }
+        }
+        
+        // Update leaderboard
+        function updateLeaderboard(userRank) {
+            const leaderboard = [];
+            
+            // Generate random top 9 competitors
+            for(let i = 1; i <= 9; i++) {
+                const rank = i;
+                const score = Math.floor(100 - (i * 3) + (Math.random() * 5));
+                leaderboard.push({ rank, name: getRandomName(), score: Math.min(100, Math.max(0, score)) });
+            }
+            
+            // Add user
+            leaderboard.push({ rank: userRank, name: "You", score: currentScore, isUser: true });
+            
+            // Sort by rank
+            leaderboard.sort((a, b) => a.rank - b.rank);
+            
+            // Display top 10
+            const top10 = leaderboard.slice(0, 10);
+            const leaderboardHTML = top10.map(item => `
+                <div class="leaderboard-item" style="${item.isUser ? 'background: rgba(255,210,0,0.1); border-radius: 10px;' : ''}">
+                    <span class="leaderboard-rank">#${item.rank}</span>
+                    <span>${item.name}</span>
+                    <span class="leaderboard-score">${Math.round(item.score)}%</span>
+                </div>
+            `).join('');
+            
+            document.getElementById('leaderboardList').innerHTML = leaderboardHTML;
+        }
+        
+        // Random names for leaderboard
+        function getRandomName() {
+            const names = ["Rahul S.", "Priya M.", "Amit K.", "Neha V.", "Vikram R.", "Sneha P.", "Rajesh K.", "Anjali S.", "Kunal D."];
+            return names[Math.floor(Math.random() * names.length)];
+        }
+        
+        // Update from slider
+        function updateFromSlider() {
+            currentScore = parseFloat(document.getElementById('scoreSlider').value);
+            updateSubjectScores(currentScore);
+            updateAll();
+        }
+        
+        // Update from mock input
+        function updateFromMockInput() {
+            let newScore = parseFloat(document.getElementById('mockScoreInput').value);
+            if(isNaN(newScore)) newScore = currentScore;
+            newScore = Math.min(100, Math.max(0, newScore));
+            
+            currentScore = newScore;
+            document.getElementById('scoreSlider').value = currentScore;
+            document.getElementById('mockScoreInput').value = '';
+            
+            updateSubjectScores(currentScore);
+            updateAll();
+        }
+        
+        // Set target rank
+        function setTargetRank() {
+            let newTarget = parseInt(document.getElementById('targetRankInput').value);
+            if(isNaN(newTarget)) newTarget = 500;
+            newTarget = Math.min(50000, Math.max(1, newTarget));
+            targetRank = newTarget;
+            updateAll();
+        }
+        
+        // Event listeners
+        document.getElementById('scoreSlider').addEventListener('input', updateFromSlider);
+        document.getElementById('updateMockBtn').addEventListener('click', updateFromMockInput);
+        document.getElementById('setTargetBtn').addEventListener('click', setTargetRank);
+        
+        // Enter key for mock input
+        document.getElementById('mockScoreInput').addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') updateFromMockInput();
+        });
+        
+        document.getElementById('targetRankInput').addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') setTargetRank();
+        });
+        
+        // Initialize
+        updateSubjectScores(65);
+        updateAll();
+    </script>
+</body>
+</html>
