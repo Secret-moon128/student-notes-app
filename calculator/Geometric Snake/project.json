@@ -1,0 +1,17 @@
+{
+  "title": "Geometric Snake",
+  "description": "A vector-lab puzzle where you move a snake on an 8×8 peg grid using arrow/WASD keys. Enclose a RIGHT TRIANGLE or PERFECT SQUARE to score. Shape detection uses Pythagorean theorem, equal side lengths, and perpendicular dot products.",
+  "author": {
+    "name": "Girish Madarkar",
+    "github": "Girish0902"
+  },
+  "tags": [
+    "snake",
+    "geometry",
+    "puzzle",
+    "vanilla-js",
+    "blueprint"
+  ],
+  "entry": "index.html",
+  "thumbnail": "thumbnail.svg"
+}

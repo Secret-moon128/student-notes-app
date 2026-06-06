@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geometric Snake</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ─── Stats ─── -->
+  <header class="stats">
+    <div class="stat-block">
+      <span class="stat-label">Target</span>
+      <span class="stat-value accent" id="target-shape">RIGHT TRIANGLE</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-label">Level</span>
+      <span class="stat-value" id="level">1</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-label">Score</span>
+      <span class="stat-value" id="score">0</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-label">Best</span>
+      <span class="stat-value" id="high-score">0</span>
+    </div>
+  </header>
+
+  <!-- ─── Feedback ─── -->
+  <div class="feedback" id="feedback">Use arrow keys to move the snake. Enclose the target shape!</div>
+
+  <!-- ─── Canvas ─── -->
+  <main class="canvas-wrap">
+    <canvas id="canvas"></canvas>
+  </main>
+
+  <!-- ─── Controls ─── -->
+  <div class="controls">
+    <button class="btn-control" id="btn-reset-level">⟳ Reset Level</button>
+    <button class="btn-control" id="btn-clear-path">↺ Clear Path</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
