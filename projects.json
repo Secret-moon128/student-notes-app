@@ -1,5 +1,13 @@
 [
   { "name": "Expense Tracker", "path": "expense-tracker-priyanshi/index.html", "icon": "fas fa-wallet", "tag": "Finance" },
   { "name": "Dots And Boxes", "path": "DotsAndBoxes/index.html", "icon": "fas fa-gamepad", "tag": "Game" },
-  { "name": "Bit Converter", "path": "Bit Converter/index.html", "icon": "fas fa-calculator", "tag": "Utility" }
+  { "name": "Bit Converter", "path": "Bit Converter/index.html", "icon": "fas fa-calculator", "tag": "Utility" },
+  { "name": "Aim Trainer", "path": "Aim Trainer/index.html", "icon": "fas fa-bullseye", "tag": "Game" },
+  { "name": "Archery Game", "path": "Archery Game/index.html", "icon": "fas fa-bow-arrow", "tag": "Game" },
+  { "name": "Attendance Tracker", "path": "Attendance Tracker/attend.html", "icon": "fas fa-user-check", "tag": "Academic" },
+  { "name": "Balloon Pop Game", "path": "Balloon Pop Game/index.html", "icon": "fas fa-balloon", "tag": "Game" },
+  { "name": "Brick Breaker", "path": "Brick Breaker/index.html", "icon": "fas fa-cube", "tag": "Game" },
+  { "name": "Decision Wheel", "path": "Decision Wheel/index.html", "icon": "fas fa-sync", "tag": "Utility" },
+  { "name": "Digital Diary", "path": "Digital Diary/diary.html", "icon": "fas fa-book", "tag": "Utility" },
+  { "name": "Dual N-Back Lite App", "path": "Dual N-Back Lite App/index.html", "icon": "fas fa-brain", "tag": "Utility" }
 ]
