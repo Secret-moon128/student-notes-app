@@ -197,14 +197,32 @@
       const div = document.createElement('div');
       div.className = 'subject-row';
       div.id = `row_${id}`;
-      div.innerHTML = `
-        <input class="inp" placeholder="Subject name" value="${name}" oninput="updateGrade(${id})" />
+
+      // Create Subject Name Input securely
+      const nameInp = document.createElement('input');
+      nameInp.className = 'inp';
+      nameInp.placeholder = 'Subject name';
+      nameInp.value = name;
+      nameInp.oninput = () => updateGrade(id);
+      div.appendChild(nameInp);
+
+      // Other elements can be added via innerHTML safely as long as they don't use unescaped user input
+      // However, it's better to be consistent or use template literals for fixed parts.
+      const otherControls = document.createElement('div');
+      otherControls.style.display = 'contents';
+      otherControls.innerHTML = `
         <input class="inp marks-inp" type="number" placeholder="0-100" min="0" max="100" value="${marks}" oninput="updateGrade(${id})" id="marks_${id}" />
         <select class="inp" id="credits_${id}">
           ${[1,2,3,4,5].map(c=>`<option value="${c}" ${c==credits?'selected':''}>${c}</option>`).join('')}
         </select>
         <div class="grade-badge" id="grade_${id}">-</div>
         <button class="del-btn" onclick="deleteRow(${id})">🗑</button>`;
+      
+      // Move children from otherControls to div
+      while (otherControls.firstChild) {
+        div.appendChild(otherControls.firstChild);
+      }
+
       container.appendChild(div);
       if (marks) updateGrade(id);
     }
