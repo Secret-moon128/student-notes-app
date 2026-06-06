@@ -4,8 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Notes App</title>
+        darkest
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
   <script src="store.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+        main
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -203,6 +208,13 @@
       padding: 0 24px 80px;
     }
 
+        darkest
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+
     /* SECTION */
     .section { margin-bottom: 52px; }
     .section-header {
@@ -238,6 +250,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
       gap: 12px;
+        main
     }
 
     .app-card {
@@ -264,7 +277,11 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .app-icon {
+        darkest
+    .icon-container {
+
+    .app-icon {  
+        main
       width: 38px; height: 38px;
       border-radius: 9px;
       display: flex;
@@ -272,16 +289,39 @@
       justify-content: center;
       font-size: 18px;
       flex-shrink: 0;
+        darkest
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+    
+    .app-card h3 {
+      font-size: 13px;
+      font-weight: 600;
+      flex: 1;
+
     }
     .app-info { flex: 1; min-width: 0; }
     .app-name {
       font-size: 13px;
       font-weight: 600;
       line-height: 1.3;
+        main
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
+        darkest
+
+    .tag {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 400;
+      background: var(--tag-bg);
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+
     .app-tag {
       font-size: 11px;
       color: var(--muted);
@@ -297,6 +337,7 @@
     .ic5 { background: #f5f3ff; }
     .ic6 { background: #fdf2f8; }
 
+        main
     /* Hidden for search */
     .app-card.hidden { display: none; }
 
@@ -365,6 +406,9 @@
   </section>
 
   <main class="main">
+        darkest
+    <div id="project-grid" class="grid"></div>
+
 
     <!-- STUDY TOOLS -->
     <div class="section">
@@ -499,6 +543,7 @@
       </div>
     </div>
 
+        main
     <div class="no-results" id="no-results">No apps found for "<span id="search-term"></span>"</div>
   </main>
 
@@ -511,8 +556,13 @@
       const q = query.toLowerCase().trim();
       let visibleCount = 0;
       document.querySelectorAll('.app-card').forEach(card => {
+        darkest
+        const name = card.querySelector('h3').textContent.toLowerCase();
+        const tag = card.querySelector('.tag').textContent.toLowerCase();
+
         const name = card.querySelector('.app-name').textContent.toLowerCase();
         const tag = card.querySelector('.app-tag').textContent.toLowerCase();
+        main
         const show = q === '' || name.includes(q) || tag.includes(q);
         card.classList.toggle('hidden', !show);
         if (show) visibleCount++;
@@ -527,8 +577,15 @@
       }
     }
   </script>
+        darkest
+  <script src="grid-renderer.js"></script>
 </body>
 </html>
+
+</body>
+</html>
+        darkest
+
         darker
 
 <!DOCTYPE html>
@@ -1610,4 +1667,5 @@ body.dark {
 </html>
         main
 
+        main
         main
