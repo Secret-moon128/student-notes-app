@@ -1,0 +1,40 @@
+name: Pull Request Linter
+
+on:
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - '**.html'
+      - '**.css'
+      - '**.js'
+
+jobs:
+  lint:
+    name: Lint HTML, CSS, and JS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-size: 20
+          node-version: '20'
+
+      - name: Install Linting Tools
+        run: |
+          npm install -g htmlhint stylelint stylelint-config-standard eslint
+
+      - name: Lint HTML Files
+        run: |
+          htmlhint "**/index.html" --ignore "**/node_modules/**" || echo "HTML warnings detected"
+
+      - name: Lint CSS Files
+        run: |
+          stylelint "**/*.css" --ignore-pattern "**/node_modules/**" || echo "CSS style warnings detected"
+
+      - name: Lint JS Files
+        run: |
+          eslint "**/*.js" --ignore-pattern "**/node_modules/**" --no-eslintrc --env browser,es2021 || echo "JS lint warnings detected"
