@@ -1,0 +1,15 @@
+/**
+ * responsive test overlay styling
+ */
+#dev-harness-panel button {
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+#dev-harness-panel button:hover {
+    background-color: var(--accent, #2563eb) !important;
+    color: white !important;
+}
+
+#viewport-simulator-wrapper {
+    backdrop-filter: blur(4px);
+}
