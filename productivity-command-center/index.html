@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CoreFlow | Productivity Command Center</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- ChartJS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar" id="app-sidebar">
+      <div class="sidebar-header">
+        <div class="logo-area">
+          <div class="logo-icon">
+            <i data-lucide="layout-dashboard"></i>
+          </div>
+          <div class="logo-text">
+            <h2>CoreFlow</h2>
+            <span>Command Center</span>
+          </div>
+        </div>
+        <button class="btn-sidebar-close" id="sidebar-toggle-close">&times;</button>
+      </div>
+
+      <nav class="sidebar-menu">
+        <button class="nav-item active" data-view="dashboard">
+          <i data-lucide="grid"></i>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-view="tasks">
+          <i data-lucide="check-square"></i>
+          <span>Tasks</span>
+        </button>
+        <button class="nav-item" data-view="goals">
+          <i data-lucide="target"></i>
+          <span>Goals</span>
+        </button>
+        <button class="nav-item" data-view="notes">
+          <i data-lucide="book-open"></i>
+          <span>Notes</span>
+        </button>
+        <button class="nav-item" data-view="focus">
+          <i data-lucide="clock"></i>
+          <span>Focus Timer</span>
+        </button>
+        <button class="nav-item" data-view="achievements">
+          <i data-lucide="trophy"></i>
+          <span>Achievements</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="streak-widget">
+          <i data-lucide="flame" class="streak-icon"></i>
+          <div class="streak-text">
+            <span class="lbl">Focus Streak</span>
+            <span class="val" id="streak-counter">0 Days</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Container -->
+    <div class="workspace-wrapper">
+      <!-- Top Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="btn btn-icon btn-secondary" id="sidebar-toggle-open">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="header-greeting">
+            <h1 id="user-greeting">Welcome Back</h1>
+            <p id="header-date">Sunday, June 7</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Reset button -->
+          <button id="reset-btn" class="btn btn-secondary btn-icon" title="Reset Command Center">
+            <i data-lucide="refresh-cw"></i>
+          </button>
+          
+          <div class="divider"></div>
+          
+          <!-- Theme Toggle -->
+          <button id="theme-toggle" class="btn btn-icon" title="Toggle Theme">
+            <i data-lucide="sun" class="sun-icon"></i>
+            <i data-lucide="moon" class="moon-icon"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Scrollable Main Viewport -->
+      <main class="app-workspace">
+
+        <!-- ========================================== -->
+        <!-- VIEW: DASHBOARD (OVERVIEW) -->
+        <!-- ========================================== -->
+        <section class="viewport-section active" id="view-dashboard">
+          <!-- Quick stats cards -->
+          <div class="stats-row">
+            <div class="stat-card">
+              <span class="label">Productivity Score</span>
+              <div class="value-row">
+                <span class="value" id="stat-score">0</span>
+                <span class="percent">%</span>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-bar" id="score-progress" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <span class="label">Tasks Completed</span>
+              <span class="value" id="stat-tasks">0</span>
+              <span class="sub" id="stat-tasks-pending">0 Pending</span>
+            </div>
+
+            <div class="stat-card">
+              <span class="label">Focus Minutes</span>
+              <span class="value" id="stat-focus">0m</span>
+              <span class="sub" id="stat-sessions">0 Sessions</span>
+            </div>
+
+            <div class="stat-card">
+              <span class="label">Goals Achieved</span>
+              <span class="value" id="stat-goals">0</span>
+              <span class="sub" id="stat-goals-total">0 Total</span>
+            </div>
+          </div>
+
+          <!-- Charts and Widgets Grid -->
+          <div class="dashboard-grid">
+            <!-- Productivity Graphs -->
+            <div class="panel-card col-span-2">
+              <div class="panel-header">
+                <h3>Productivity Analytics</h3>
+                <div class="chart-toggles">
+                  <button class="btn btn-sm btn-secondary active" id="btn-chart-tasks">Tasks</button>
+                  <button class="btn btn-sm btn-secondary" id="btn-chart-focus">Focus</button>
+                </div>
+              </div>
+              <div class="chart-wrapper">
+                <canvas id="productivityChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Focus Stats & Streak Panel -->
+            <div class="panel-card">
+              <div class="panel-header">
+                <h3>Today's Focus Status</h3>
+              </div>
+              <div class="focus-summary-widget">
+                <div class="radial-ring-container">
+                  <svg class="radial-svg" viewBox="0 0 100 100">
+                    <circle class="ring-bg" cx="50" cy="50" r="40"></circle>
+                    <circle class="ring-fg" id="focus-progress-ring" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+                  </svg>
+                  <div class="ring-label">
+                    <span class="ring-val" id="focus-progress-val">0%</span>
+                    <span class="ring-sub">Daily Target</span>
+                  </div>
+                </div>
+                <div class="focus-details">
+                  <div class="detail-item">
+                    <span class="name">Logged Focus</span>
+                    <span class="val" id="today-focus-logged">0m</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="name">Target Focus</span>
+                    <span class="val">50m</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Upcoming Tasks Widget -->
+            <div class="panel-card">
+              <div class="panel-header">
+                <h3>Upcoming Tasks</h3>
+              </div>
+              <div class="upcoming-list" id="upcoming-tasks-container">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+
+            <!-- Motivational Quotes Widget -->
+            <div class="panel-card flex-center">
+              <div class="quote-widget">
+                <i data-lucide="quote" class="quote-icon"></i>
+                <p id="quote-text">"Your limitation—it's only your imagination."</p>
+                <span id="quote-author">— Unknown</span>
+              </div>
+            </div>
+
+            <!-- Daily Goals Progress Widget -->
+            <div class="panel-card">
+              <div class="panel-header">
+                <h3>Today's Goals</h3>
+              </div>
+              <div class="today-goals-list" id="today-goals-container">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW: TASKS -->
+        <!-- ========================================== -->
+        <section class="viewport-section" id="view-tasks">
+          <div class="tasks-layout">
+            <!-- Add Task Form Card -->
+            <div class="panel-card tasks-form-card">
+              <div class="panel-header">
+                <h3>Create New Task</h3>
+              </div>
+              <form id="task-form" class="standard-form">
+                <div class="form-group">
+                  <label for="task-title">Task Title *</label>
+                  <input type="text" id="task-title" required placeholder="e.g. Finish chemistry assignment">
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="task-due">Due Date</label>
+                    <input type="date" id="task-due">
+                  </div>
+                  <div class="form-group">
+                    <label for="task-category">Category</label>
+                    <select id="task-category">
+                      <option value="Work">Work</option>
+                      <option value="Study">Study</option>
+                      <option value="Personal">Personal</option>
+                      <option value="Health">Health</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="task-priority">Priority</label>
+                  <select id="task-priority">
+                    <option value="Low">Low Priority</option>
+                    <option value="Medium">Medium Priority</option>
+                    <option value="High">High Priority</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="task-notes">Notes / Descriptions</label>
+                  <textarea id="task-notes" rows="2" placeholder="Sub-tasks, links or resources details..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">
+                  <i data-lucide="plus"></i>
+                  <span>Add Task</span>
+                </button>
+              </form>
+            </div>
+
+            <!-- Task Items List Card -->
+            <div class="panel-card tasks-list-card">
+              <div class="panel-header flex-column">
+                <div class="filters-row">
+                  <h3>My Tasks</h3>
+                  <div class="task-count-badge" id="tasks-count">0</div>
+                </div>
+                <div class="list-controls">
+                  <div class="filter-buttons">
+                    <button class="btn btn-sm btn-secondary active" data-filter="all">All</button>
+                    <button class="btn btn-sm btn-secondary" data-filter="active">Active</button>
+                    <button class="btn btn-sm btn-secondary" data-filter="completed">Completed</button>
+                    <button class="btn btn-sm btn-secondary" data-filter="overdue">Overdue</button>
+                  </div>
+                  <div class="search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="tasks-search" placeholder="Search tasks...">
+                  </div>
+                </div>
+              </div>
+
+              <div class="tasks-scroller" id="tasks-list-container">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW: GOALS -->
+        <!-- ========================================== -->
+        <section class="viewport-section" id="view-goals">
+          <div class="goals-layout">
+            <!-- Add Goal Form Panel -->
+            <div class="panel-card goals-form-card">
+              <div class="panel-header">
+                <h3>Add New Goal</h3>
+              </div>
+              <form id="goal-form" class="standard-form">
+                <div class="form-group">
+                  <label for="goal-title">Goal Target *</label>
+                  <input type="text" id="goal-title" required placeholder="e.g. Read 20 pages of a book">
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="goal-timeframe">Timeframe</label>
+                    <select id="goal-timeframe">
+                      <option value="Daily">Daily Goal</option>
+                      <option value="Weekly">Weekly Goal</option>
+                      <option value="Monthly">Monthly Goal</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="goal-category">Category</label>
+                    <select id="goal-category">
+                      <option value="Work">Work</option>
+                      <option value="Study">Study</option>
+                      <option value="Personal">Personal</option>
+                      <option value="Health">Health</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">
+                  <i data-lucide="plus"></i>
+                  <span>Add Goal</span>
+                </button>
+              </form>
+            </div>
+
+            <!-- Goal Boards -->
+            <div class="goals-boards-container">
+              <!-- Column 1: Daily Goals -->
+              <div class="panel-card goal-column">
+                <div class="column-header">
+                  <h4>Daily Goals</h4>
+                  <span class="count" id="count-daily-goals">0</span>
+                </div>
+                <div class="goals-container" id="daily-goals-container-view">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+
+              <!-- Column 2: Weekly Goals -->
+              <div class="panel-card goal-column">
+                <div class="column-header">
+                  <h4>Weekly Goals</h4>
+                  <span class="count" id="count-weekly-goals">0</span>
+                </div>
+                <div class="goals-container" id="weekly-goals-container-view">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+
+              <!-- Column 3: Monthly Goals -->
+              <div class="panel-card goal-column">
+                <div class="column-header">
+                  <h4>Monthly Goals</h4>
+                  <span class="count" id="count-monthly-goals">0</span>
+                </div>
+                <div class="goals-container" id="monthly-goals-container-view">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW: NOTES -->
+        <!-- ========================================== -->
+        <section class="viewport-section" id="view-notes">
+          <div class="notes-layout">
+            <!-- Notes Sidebar Selector -->
+            <div class="panel-card notes-sidebar">
+              <div class="panel-header">
+                <h3>Notes Library</h3>
+                <button class="btn btn-secondary btn-icon" id="new-note-btn" title="New Note">
+                  <i data-lucide="plus"></i>
+                </button>
+              </div>
+              <div class="notes-scroller" id="notes-list-container">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+
+            <!-- Notes Editor Space -->
+            <div class="panel-card notes-editor">
+              <div id="editor-active-state" style="display: none;">
+                <div class="editor-header">
+                  <input type="text" id="note-editor-title" placeholder="Note Title...">
+                  <div class="editor-actions">
+                    <select id="note-editor-category">
+                      <option value="Work">Work</option>
+                      <option value="Study">Study</option>
+                      <option value="Personal">Personal</option>
+                      <option value="Ideas">Ideas</option>
+                    </select>
+                    <button class="btn btn-danger-outline btn-icon" id="delete-note-btn" title="Delete Note">
+                      <i data-lucide="trash-2"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="editor-body">
+                  <textarea id="note-editor-content" placeholder="Start writing note details (Auto-saves)..."></textarea>
+                </div>
+              </div>
+
+              <div id="editor-empty-state" class="editor-empty">
+                <i data-lucide="file-text" class="empty-icon"></i>
+                <p>Select a note from the library or create a new one to begin editing.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW: FOCUS TIMER -->
+        <!-- ========================================== -->
+        <section class="viewport-section" id="view-focus">
+          <div class="focus-layout">
+            <!-- Main Circular Pomodoro Clock -->
+            <div class="panel-card pomodoro-card">
+              <div class="pomodoro-modes">
+                <button class="mode-btn active" data-mode="work">Focus Work</button>
+                <button class="mode-btn" data-mode="short">Short Break</button>
+                <button class="mode-btn" data-mode="long">Long Break</button>
+              </div>
+
+              <div class="pomodoro-timer-visual">
+                <svg class="pomo-svg" viewBox="0 0 160 160">
+                  <circle class="pomo-ring-bg" cx="80" cy="80" r="72"></circle>
+                  <circle class="pomo-ring-fg" id="timer-progress-ring" cx="80" cy="80" r="72" stroke-dasharray="452.4" stroke-dashoffset="0"></circle>
+                </svg>
+                <div class="timer-digits" id="timer-digits-val">25:00</div>
+              </div>
+
+              <div class="pomodoro-controls">
+                <button class="btn btn-primary" id="btn-timer-toggle">
+                  <i data-lucide="play" class="timer-play-icon"></i>
+                  <i data-lucide="pause" class="timer-pause-icon" style="display: none;"></i>
+                  <span id="timer-toggle-text">Start Session</span>
+                </button>
+                <button class="btn btn-secondary btn-icon" id="btn-timer-reset" title="Reset Timer">
+                  <i data-lucide="square"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Focus Sessions Log -->
+            <div class="panel-card focus-logs-card">
+              <div class="panel-header">
+                <h3>Focus Session History</h3>
+                <span class="count" id="focus-logs-count">0 logged</span>
+              </div>
+              <div class="logs-scroller" id="focus-logs-container">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW: ACHIEVEMENTS -->
+        <!-- ========================================== -->
+        <section class="viewport-section" id="view-achievements">
+          <div class="panel-card achievements-container">
+            <div class="panel-header">
+              <h3>Achievements & Milestones</h3>
+            </div>
+            
+            <div class="badges-grid" id="badges-grid-container">
+              <!-- Badge cards injected dynamically via JS -->
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
