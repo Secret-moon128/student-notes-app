@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Kanban Board</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header class="app-header">
+        <h1>Advanced Kanban Board</h1>
+        <p>Native HTML5 drag-and-drop with a normalized task state engine.</p>
+    </header>
+
+    <section class="board-controls">
+        <form id="form-add-task">
+            <div class="input-group">
+                <label for="input-title">Task Title</label>
+                <input id="input-title" type="text" placeholder="Enter task title" required />
+            </div>
+            <div class="input-group">
+                <label for="input-desc">Task Description</label>
+                <textarea id="input-desc" placeholder="Enter task description"></textarea>
+            </div>
+            <button type="submit">Add Task</button>
+        </form>
+    </section>
+
+    <main class="kanban-container">
+        <section class="kanban-column" id="col-todo" data-status="todo">
+            <h2>To Do</h2>
+        </section>
+
+        <section class="kanban-column" id="col-inprogress" data-status="inprogress">
+            <h2>In Progress</h2>
+        </section>
+
+        <section class="kanban-column" id="col-completed" data-status="completed">
+            <h2>Completed</h2>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
