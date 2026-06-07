@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Focus Mode | Asian Cram-School Style | NSOC Contribution</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
+            transition: all 0.3s ease;
+        }
+
+        /* Normal Mode */
+        .normal-mode {
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(0,255,255,0.5);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+        }
+
+        /* Settings Card */
+        .settings-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: white;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border: 1px solid #00ffcc;
+        }
+
+        .timer-presets {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .preset-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .preset-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .start-focus-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #00b4db, #0083b0);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .start-focus-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,180,219,0.4);
+        }
+
+        .session-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            color: #00ffcc;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+        }
+
+        /* ========== FOCUS MODE ========== */
+        .focus-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0f;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .focus-mode.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Blur background effect */
+        .blur-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Focus Card */
+        .focus-card {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 50px;
+            background: rgba(20,20,40,0.9);
+            border-radius: 50px;
+            border: 1px solid rgba(0,255,255,0.3);
+            box-shadow: 0 0 50px rgba(0,255,255,0.1);
+            max-width: 500px;
+            width: 90%;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .focus-subject {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .focus-subject span {
+            color: #00ffcc;
+            font-weight: bold;
+        }
+
+        .focus-timer {
+            font-size: 80px;
+            font-weight: bold;
+            color: #00ffcc;
+            font-family: monospace;
+            letter-spacing: 5px;
+            margin: 30px 0;
+            text-shadow: 0 0 20px rgba(0,255,204,0.5);
+        }
+
+        .focus-phase {
+            font-size: 18px;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .focus-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .focus-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .focus-btn.pause {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .focus-btn.stop {
+            background: #dc3545;
+            color: white;
+        }
+
+        .focus-btn.exit {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .focus-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .session-counter {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+        }
+
+        /* Alarm notification */
+        .alarm-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 30px;
+            animation: slideIn 0.3s ease;
+            z-index: 1100;
+            display: none;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .focus-timer {
+                font-size: 50px;
+            }
+            .focus-card {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Normal Mode -->
+    <div class="normal-mode" id="normalMode">
+        <div class="container">
+            <div class="header">
+                <h1>🧘 Deep Focus Mode</h1>
+                <div class="subtitle">Asian Cram-School Style | Everything else blurs when you focus</div>
+            </div>
+
+            <div class="settings-card">
+                <div class="input-group">
+                    <label>📖 What are you studying?</label>
+                    <input type="text" id="subjectInput" placeholder="e.g., Mathematics, Physics, Japanese..." value="Mathematics">
+                </div>
+
+                <div class="input-group">
+                    <label>⏱️ Focus Duration</label>
+                    <div class="timer-presets">
+                        <button class="preset-btn" data-minutes="15">15 min</button>
+                        <button class="preset-btn" data-minutes="25" id="defaultPreset">25 min (Pomodoro)</button>
+                        <button class="preset-btn" data-minutes="45">45 min</button>
+                        <button class="preset-btn" data-minutes="60">60 min</button>
+                    </div>
+                    <input type="number" id="customMinutes" placeholder="Custom minutes" min="1" max="180" style="margin-top: 10px;">
+                </div>
+
+                <div class="input-group">
+                    <label>☕ Break Duration</label>
+                    <input type="number" id="breakMinutes" placeholder="Break minutes" min="1" max="30" value="5">
+                </div>
+
+                <button class="start-focus-btn" id="startFocusBtn">🎯 Enter Deep Focus Mode</button>
+
+                <div class="session-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalSessions">0</div>
+                        <div class="stat-label">Total Sessions</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalFocusTime">0</div>
+                        <div class="stat-label">Hours Focused</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Focus Mode (Hidden by default) -->
+    <div class="focus-mode" id="focusMode">
+        <div class="blur-bg"></div>
+        <div class="focus-card">
+            <div class="focus-subject">
+                📚 Currently Studying: <span id="focusSubject">Mathematics</span>
+            </div>
+            <div class="focus-timer" id="focusTimer">25:00</div>
+            <div class="focus-phase" id="focusPhase">🎯 Focus Mode</div>
+            <div class="focus-buttons">
+                <button class="focus-btn pause" id="pauseFocusBtn">⏸ Pause</button>
+                <button class="focus-btn stop" id="stopFocusBtn">⏹ Stop</button>
+                <button class="focus-btn exit" id="exitFocusBtn">✖ Exit</button>
+            </div>
+            <div class="session-counter">
+                📊 Session #<span id="sessionCount">1</span> | Study Streak: <span id="streakCount">0</span> sessions
+            </div>
+        </div>
+    </div>
+
+    <div class="alarm-notification" id="alarmNotification">
+        ⏰ Time's up! Great focus session! 🎉
+    </div>
+
+    <script>
+        // Variables
+        let focusMinutes = 25;
+        let breakMinutes = 5;
+        let currentSubject = "Mathematics";
+        let totalSessions = 0;
+        let totalFocusMinutes = 0;
+        let currentSessionNumber = 1;
+        let streakCount = 0;
+        
+        let timerInterval = null;
+        let currentTimeSeconds = 25 * 60;
+        let isFocusPhase = true;
+        let isRunning = false;
+        
+        // DOM Elements
+        const normalMode = document.getElementById('normalMode');
+        const focusMode = document.getElementById('focusMode');
+        const subjectInput = document.getElementById('subjectInput');
+        const customMinutes = document.getElementById('customMinutes');
+        const breakMinutesInput = document.getElementById('breakMinutes');
+        const startFocusBtn = document.getElementById('startFocusBtn');
+        const focusSubject = document.getElementById('focusSubject');
+        const focusTimer = document.getElementById('focusTimer');
+        const focusPhase = document.getElementById('focusPhase');
+        const pauseFocusBtn = document.getElementById('pauseFocusBtn');
+        const stopFocusBtn = document.getElementById('stopFocusBtn');
+        const exitFocusBtn = document.getElementById('exitFocusBtn');
+        const totalSessionsSpan = document.getElementById('totalSessions');
+        const totalFocusTimeSpan = document.getElementById('totalFocusTime');
+        const sessionCountSpan = document.getElementById('sessionCount');
+        const streakCountSpan = document.getElementById('streakCount');
+        const alarmNotification = document.getElementById('alarmNotification');
+        
+        // Preset buttons
+        const presetBtns = document.querySelectorAll('.preset-btn');
+        
+        // Load stats from localStorage
+        function loadStats() {
+            const savedSessions = localStorage.getItem('focusTotalSessions');
+            const savedMinutes = localStorage.getItem('focusTotalMinutes');
+            const savedStreak = localStorage.getItem('focusStreak');
+            
+            if(savedSessions) totalSessions = parseInt(savedSessions);
+            if(savedMinutes) totalFocusMinutes = parseInt(savedMinutes);
+            if(savedStreak) streakCount = parseInt(savedStreak);
+            
+            updateStatsDisplay();
+        }
+        
+        // Save stats
+        function saveStats() {
+            localStorage.setItem('focusTotalSessions', totalSessions);
+            localStorage.setItem('focusTotalMinutes', totalFocusMinutes);
+            localStorage.setItem('focusStreak', streakCount);
+        }
+        
+        // Update stats display
+        function updateStatsDisplay() {
+            totalSessionsSpan.textContent = totalSessions;
+            const hours = Math.floor(totalFocusMinutes / 60);
+            totalFocusTimeSpan.textContent = hours;
+        }
+        
+        // Format time (MM:SS)
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        // Update timer display
+        function updateTimerDisplay() {
+            focusTimer.textContent = formatTime(currentTimeSeconds);
+        }
+        
+        // Play alarm sound
+        function playAlarm() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.frequency.value = 880;
+                gainNode.gain.value = 0.3;
+                oscillator.start();
+                gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 1.5);
+                oscillator.stop(audioCtx.currentTime + 1.5);
+            } catch(e) {
+                console.log('Alarm not supported');
+            }
+            
+            // Show notification
+            alarmNotification.style.display = 'block';
+            setTimeout(() => {
+                alarmNotification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Timer tick
+        function timerTick() {
+            if(currentTimeSeconds > 0) {
+                currentTimeSeconds--;
+                updateTimerDisplay();
+            }
+            
+            if(currentTimeSeconds === 0) {
+                // Time's up!
+                clearInterval(timerInterval);
+                isRunning = false;
+                playAlarm();
+                
+                if(isFocusPhase) {
+                    // Focus ended, start break
+                    alert('🎉 Focus session completed! Time for a break! 🎉');
+                    currentTimeSeconds = breakMinutes * 60;
+                    isFocusPhase = false;
+                    focusPhase.textContent = '☕ Break Time - Relax a bit';
+                    focusPhase.style.color = '#ffd200';
+                    focusTimer.style.color = '#ffd200';
+                    
+                    // Add to totals
+                    totalSessions++;
+                    totalFocusMinutes += focusMinutes;
+                    currentSessionNumber++;
+                    streakCount++;
+                    saveStats();
+                    updateStatsDisplay();
+                    sessionCountSpan.textContent = currentSessionNumber;
+                    streakCountSpan.textContent = streakCount;
+                    
+                    // Auto start break timer
+                    startTimer();
+                } else {
+                    // Break ended
+                    alert('✨ Break over! Ready for next focus session? ✨');
+                    resetToFocus();
+                }
+            }
+        }
+        
+        // Start timer
+        function startTimer() {
+            if(timerInterval) clearInterval(timerInterval);
+            isRunning = true;
+            timerInterval = setInterval(timerTick, 1000);
+        }
+        
+        // Pause timer
+        function pauseTimer() {
+            if(timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                isRunning = false;
+            }
+        }
+        
+        // Stop timer completely
+        function stopTimer() {
+            if(timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            isRunning = false;
+        }
+        
+        // Reset to focus mode
+        function resetToFocus() {
+            stopTimer();
+            isFocusPhase = true;
+            currentTimeSeconds = focusMinutes * 60;
+            updateTimerDisplay();
+            focusPhase.textContent = '🎯 Focus Mode - Stay Deep!';
+            focusPhase.style.color = 'white';
+            focusTimer.style.color = '#00ffcc';
+        }
+        
+        // Enter focus mode
+        function enterFocusMode() {
+            // Get values
+            let focusMin = parseInt(customMinutes.value);
+            if(isNaN(focusMin) || focusMin <= 0) {
+                focusMin = 25;
+            }
+            focusMinutes = Math.min(180, focusMin);
+            
+            let breakMin = parseInt(breakMinutesInput.value);
+            if(isNaN(breakMin) || breakMin <= 0) {
+                breakMin = 5;
+            }
+            breakMinutes = Math.min(60, breakMin);
+            
+            currentSubject = subjectInput.value.trim() || "Study";
+            
+            // Reset timer state
+            stopTimer();
+            isFocusPhase = true;
+            isRunning = false;
+            currentTimeSeconds = focusMinutes * 60;
+            
+            // Update UI
+            focusSubject.textContent = currentSubject;
+            updateTimerDisplay();
+            focusPhase.textContent = '🎯 Focus Mode - Stay Deep!';
+            focusPhase.style.color = 'white';
+            focusTimer.style.color = '#00ffcc';
+            sessionCountSpan.textContent = currentSessionNumber;
+            streakCountSpan.textContent = streakCount;
+            
+            // Show focus mode
+            normalMode.style.opacity = '0.3';
+            normalMode.style.filter = 'blur(8px)';
+            focusMode.classList.add('active');
+        }
+        
+        // Exit focus mode
+        function exitFocusMode() {
+            stopTimer();
+            isRunning = false;
+            focusMode.classList.remove('active');
+            normalMode.style.opacity = '1';
+            normalMode.style.filter = 'blur(0px)';
+        }
+        
+        // Event listeners
+        startFocusBtn.addEventListener('click', enterFocusMode);
+        pauseFocusBtn.addEventListener('click', () => {
+            if(isRunning) {
+                pauseTimer();
+                pauseFocusBtn.textContent = '▶ Resume';
+            } else {
+                startTimer();
+                pauseFocusBtn.textContent = '⏸ Pause';
+            }
+        });
+        
+        stopFocusBtn.addEventListener('click', () => {
+            stopTimer();
+            isRunning = false;
+            resetToFocus();
+            pauseFocusBtn.textContent = '⏸ Pause';
+        });
+        
+        exitFocusBtn.addEventListener('click', exitFocusMode);
+        
+        // Preset buttons
+        presetBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const minutes = parseInt(btn.dataset.minutes);
+                if(minutes) {
+                    customMinutes.value = minutes;
+                }
+            });
+        });
+        
+        // Load stats on init
+        loadStats();
+        
+        // Clean up on page unload
+        window.addEventListener('beforeunload', () => {
+            if(timerInterval) clearInterval(timerInterval);
+        });
+    </script>
+</body>
+</html>

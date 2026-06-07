@@ -1,0 +1,22 @@
+{
+  "name": "student-notes-app",
+  "version": "1.0.0",
+  "description": "20 Days • 20 Projects Challenge - Community Portfolio",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx lite-server",
+    "dev": "npx lite-server",
+    "validate": "node .github/workflows/validate-projects-json.yml"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  },
+  "keywords": [
+    "education",
+    "portfolio",
+    "showcase",
+    "web-apps"
+  ],
+  "author": "Contributors",
+  "license": "MIT"
+}

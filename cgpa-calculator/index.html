@@ -197,14 +197,32 @@
       const div = document.createElement('div');
       div.className = 'subject-row';
       div.id = `row_${id}`;
-      div.innerHTML = `
-        <input class="inp" placeholder="Subject name" value="${name}" oninput="updateGrade(${id})" />
+
+      // Create Subject Name Input securely
+      const nameInp = document.createElement('input');
+      nameInp.className = 'inp';
+      nameInp.placeholder = 'Subject name';
+      nameInp.value = name;
+      nameInp.oninput = () => updateGrade(id);
+      div.appendChild(nameInp);
+
+      // Other elements can be added via innerHTML safely as long as they don't use unescaped user input
+      // However, it's better to be consistent or use template literals for fixed parts.
+      const otherControls = document.createElement('div');
+      otherControls.style.display = 'contents';
+      otherControls.innerHTML = `
         <input class="inp marks-inp" type="number" placeholder="0-100" min="0" max="100" value="${marks}" oninput="updateGrade(${id})" id="marks_${id}" />
         <select class="inp" id="credits_${id}">
           ${[1,2,3,4,5].map(c=>`<option value="${c}" ${c==credits?'selected':''}>${c}</option>`).join('')}
         </select>
         <div class="grade-badge" id="grade_${id}">-</div>
         <button class="del-btn" onclick="deleteRow(${id})">🗑</button>`;
+      
+      // Move children from otherControls to div
+      while (otherControls.firstChild) {
+        div.appendChild(otherControls.firstChild);
+      }
+
       container.appendChild(div);
       if (marks) updateGrade(id);
     }
@@ -228,7 +246,7 @@
       const rows = document.querySelectorAll('#subjectRows .subject-row');
       semData[currentSem] = Array.from(rows).map(r => ({
         name:    r.querySelector('input[type=text], input:not([type])').value,
-        marks:   parseFloat(r.querySelector('.marks-inp').value) || 0,
+        marks:   r.querySelector('.marks-inp').value,
         credits: parseInt(r.querySelector('select').value) || 3,
       }));
     }
@@ -251,7 +269,7 @@
     function calcSemGPA(subjects) {
       let totalPoints = 0, totalCredits = 0;
       subjects.forEach(s => {
-        if (s.marks > 0) {
+        if (s.marks !== null && s.marks !== '' && !isNaN(s.marks)) {
           const { points } = getGrade(s.marks);
           totalPoints  += points * s.credits;
           totalCredits += s.credits;
@@ -273,17 +291,27 @@
       for (let i = 1; i <= 8; i++) {
         const d = semData[i];
         if (!d || d.length === 0) continue;
+
         const gpa = calcSemGPA(d);
-        if (gpa === 0) continue;
-        let tc = 0;
-        d.forEach(s => { if(s.marks>0) { const {points} = getGrade(s.marks); allPoints += points*s.credits; allCredits += s.credits; } });
+        let hasValidCredits = false;
+
+        d.forEach(s => {
+          if (s.marks !== null && s.marks !== '' && !isNaN(s.marks)) {
+            const { points } = getGrade(s.marks);
+            allPoints += points * s.credits;
+            allCredits += s.credits;
+            hasValidCredits = true;
+          }
+        });
+
+        if (!hasValidCredits) continue;
         const { grade } = getGrade(gpa * 10);
         breakdown.innerHTML += `
           <div class="sem-result-box">
             <div class="s-num">Semester ${i}</div>
             <div class="s-gpa">${gpa.toFixed(2)}</div>
             <div class="s-grade">GPA • Grade ${grade}</div>
-          </div>`;
+          </div>\`;
       }
 
       const cgpa = allCredits > 0 ? (allPoints / allCredits) : semGPA;

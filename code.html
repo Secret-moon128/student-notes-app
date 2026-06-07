@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Break the Lock — Decryption Protocol</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&display=swap');
+
+        :root {
+            --bg: #0a0a0c;
+            --primary: #00ff41; /* Matrix Green */
+            --secondary: #ff003c; /* Cyber Red */
+            --accent: #008f11;
+            --surface: #121214;
+            --text: #00ff41;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Buggy CRT Scanline Effect */
+        .crt-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 100;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .flicker {
+            animation: flicker 0.15s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.97; }
+            50% { opacity: 1; }
+            100% { opacity: 0.98; }
+        }
+
+        .container {
+            width: 95%;
+            max-width: 500px;
+            background: var(--surface);
+            border: 2px solid var(--accent);
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 10px;
+        }
+
+        .clue-list {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--accent);
+            padding: 15px;
+            margin-bottom: 25px;
+            font-size: 0.8rem;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+
+        .clue-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .clue-nums {
+            color: #000;
+            font-weight: 800;
+            background: var(--primary);
+            padding: 2px 8px;
+            letter-spacing: 2px;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .digit-box {
+            width: 50px;
+            height: 65px;
+            background: #000;
+            border: 2px solid var(--accent);
+            color: var(--primary);
+            font-size: 2.2rem;
+            text-align: center;
+            outline: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.1s;
+            user-select: none;
+        }
+
+        .digit-box:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary);
+            transform: scale(1.05);
+        }
+
+        .btn-decrypt {
+            width: 100%;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 15px;
+            font-family: inherit;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.2s;
+            letter-spacing: 2px;
+        }
+
+        .btn-decrypt:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 25px var(--primary);
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hidden { display: none !important; }
+
+        .status-msg {
+            margin-top: 15px;
+            height: 20px;
+            font-size: 0.7rem;
+            text-align: center;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="crt-overlay"></div>
+    <div class="container flicker">
+        <div id="start-overlay" class="overlay">
+            <h1 style="color: var(--primary); font-size: 2rem;">PROTOCOL_LOCK</h1>
+            <p style="margin-bottom: 30px;">Identify the hidden numeric sequence using the corrupted intelligence fragments provided.</p>
+            <button class="btn-decrypt" onclick="initLevel()">INITIALIZE_SEQUENCE</button>
+        </div>
+
+        <div id="status-overlay" class="overlay hidden">
+            <h1 id="status-title">ACCESS_GRANTED</h1>
+            <p id="status-msg" style="margin-bottom: 30px;"></p>
+            <button class="btn-decrypt" id="status-btn" onclick="initLevel()">PROCEED_TO_NEXT_NODE</button>
+        </div>
+
+        <h1>LOCK_SYSTEM_v2.4</h1>
+        
+        <div style="display: flex; justify-content: space-between; font-size: 0.7rem; margin-bottom: 10px; opacity: 0.7;">
+            <span>NODE: <span id="level-val">1</span></span>
+            <span>CYCLES: <span id="tries-val">0</span></span>
+        </div>
+
+        <div class="clue-list" id="clues"></div>
+
+        <div class="input-area" id="input-container"></div>
+
+        <button class="btn-decrypt" onclick="verifyCode()">DECRYPT_SEQUENCE</button>
+        <div id="feedback" class="status-msg"></div>
+    </div>
+
+    <script>
+        const LEVELS = [
+            { code: "123", clues: [
+                { n: "145", m: "One number is correct and well placed" },
+                { n: "216", m: "Two numbers are correct but wrongly placed" },
+                { n: "789", m: "Nothing is correct" }
+            ]},
+            { code: "408", clues: [
+                { n: "492", m: "One number is correct and well placed" },
+                { n: "105", m: "One number is correct and well placed" },
+                { n: "678", m: "One number is correct but wrongly placed" },
+                { n: "840", m: "Three numbers are correct but wrongly placed" }
+            ]},
+            { code: "052", clues: [
+                { n: "682", m: "One number is correct and well placed" },
+                { n: "614", m: "Nothing is correct" },
+                { n: "206", m: "Two numbers are correct but wrongly placed" },
+                { n: "047", m: "One number is correct and well placed" }
+            ]},
+            { code: "1937", clues: [
+                { n: "1234", m: "Two numbers correct, one well placed" },
+                { n: "5678", m: "One number correct, wrongly placed" },
+                { n: "3719", m: "Four numbers correct, all wrongly placed" },
+                { n: "0000", m: "Nothing is correct" }
+            ]}
+        ];
+
+        let state = { levelIdx: 0, currentGuess: [], tries: 0 };
+
+        function initLevel() {
+            const lvl = LEVELS[state.levelIdx];
+            state.tries = 0;
+            state.currentGuess = new Array(lvl.code.length).fill(0);
+            
+            document.getElementById('start-overlay').classList.add('hidden');
+            document.getElementById('status-overlay').classList.add('hidden');
+            document.getElementById('level-val').innerText = state.levelIdx + 1;
+            document.getElementById('tries-val').innerText = state.tries;
+            document.getElementById('feedback').innerText = "";
+
+            const cluesBox = document.getElementById('clues');
+            cluesBox.innerHTML = lvl.clues.map(c => `
+                <div class="clue-item">
+                    <span class="clue-nums">${c.n}</span>
+                    <span>${c.m}</span>
+                </div>
+            `).join('');
+
+            const inputArea = document.getElementById('input-container');
+            inputArea.innerHTML = state.currentGuess.map((digit, i) => `
+                <div class="digit-box" onclick="rotateDigit(${i}, this)">${digit}</div>
+            `).join('');
+        }
+
+        function rotateDigit(idx, el) {
+            state.currentGuess[idx] = (state.currentGuess[idx] + 1) % 10;
+            el.innerText = state.currentGuess[idx];
+        }
+
+        function verifyCode() {
+            const lvl = LEVELS[state.levelIdx];
+            const guess = state.currentGuess.join('');
+            state.tries++;
+            document.getElementById('tries-val').innerText = state.tries;
+
+            if (guess === lvl.code) {
+                const msg = `Security node ${state.levelIdx + 1} bypassed in ${state.tries} cycles.`;
+                state.levelIdx = (state.levelIdx + 1) % LEVELS.length;
+                showStatus("ACCESS_GRANTED", msg);
+            } else {
+                const fb = document.getElementById('feedback');
+                fb.innerText = ">> ERR: INVALID_SEQUENCE_DETECTED";
+                fb.style.color = "var(--secondary)";
+                setTimeout(() => fb.innerText = "", 1500);
+            }
+        }
+
+        function showStatus(title, msg) {
+            const overlay = document.getElementById('status-overlay');
+            document.getElementById('status-title').innerText = title;
+            document.getElementById('status-msg').innerText = msg;
+            overlay.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

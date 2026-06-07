@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spaced Repetition Flashcards</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header>
+      <h1>Leitner Spaced Repetition Deck</h1>
+      <p>Algorithmic review scheduling with rigorous, time-gated memory queues.</p>
+    </header>
+
+    <section class="status-panel">
+      <div class="status-card">
+        <span>Box 1</span>
+        <strong id="count-box1">0</strong>
+      </div>
+      <div class="status-card">
+        <span>Box 2</span>
+        <strong id="count-box2">0</strong>
+      </div>
+      <div class="status-card">
+        <span>Box 3</span>
+        <strong id="count-box3">0</strong>
+      </div>
+    </section>
+
+    <section class="flashcard-panel">
+      <article id="flashcard-container" class="flashcard">
+        <div id="card-body">
+          <div class="flashcard-label">Next due item</div>
+          <h2 id="card-question">Loading...</h2>
+          <div id="answer-wrapper" class="answer-wrapper">
+            <p id="card-answer"></p>
+          </div>
+        </div>
+
+        <div class="flashcard-actions">
+          <button id="btn-reveal">Reveal Answer</button>
+          <button id="btn-correct">Correct</button>
+          <button id="btn-incorrect">Incorrect</button>
+        </div>
+      </article>
+
+      <article id="empty-state" class="empty-state" hidden></article>
+    </section>
+
+    <section class="deck-builder">
+      <h2>Add a new card</h2>
+      <form id="form-add-card">
+        <label>
+          Question
+          <textarea id="input-q" rows="2" required></textarea>
+        </label>
+        <label>
+          Answer
+          <textarea id="input-a" rows="2" required></textarea>
+        </label>
+        <button type="submit">Add Card to Box 1</button>
+      </form>
+    </section>
+
+    <section class="timeline">
+      <p id="deck-summary">The whole deck is managed as object-relational queues for review scheduling.</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

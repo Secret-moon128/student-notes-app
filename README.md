@@ -16,9 +16,10 @@ A beginner-friendly open-source repository where contributors can showcase creat
 
 NSOC'26 has been transformed into a **20 Days • 20 Projects Challenge** to provide a smoother and more organized contribution experience.
 
-Instead of contributing to one large codebase with frequent merge conflicts, contributors can now create and maintain their own independent projects inside dedicated folders.
+Sorry for the inconvenience. The previous **Student Notes App** project was frequently running into large merge conflicts due to the high number of PRs. Because of that, I've changed it to **20 Days, 20 Projects**.
 
-This approach makes contributing easier, especially for beginners.
+Drop your crazy frontend projects, UI designs, landing pages, components, dashboards, animations, and anything else you've built. Let's create and showcase as many projects as possible!
+
 
 ---
 
@@ -52,6 +53,9 @@ Click the **Fork** button at the top-right corner.
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/student-notes-app.git
+cd student-notes-app
+npm install
+npm run dev
 ```
 
 ### 3. Create a New Project Folder
@@ -76,7 +80,11 @@ your-project/
 └── script.js
 ```
 
-### 5. Commit and Create a Pull Request
+### 5. Link your Project to the Main Dashboard
+
+Open the root `index.html` file, locate the `<div class="card-container">` section, and add a new HTML card block that hyperlinks to your newly created folder.
+
+### 6. Commit and Create a Pull Request
 
 Push your changes and open a PR.
 
@@ -217,6 +225,7 @@ This repository already contains a growing collection of projects built by contr
 * Weather Card
 * Utility App
 * Calendar
+* Decision Wheel
 
 ### 📈 Tracking & Monitoring
 
@@ -255,7 +264,7 @@ You are free to use:
 
 ### 📁 Where to Put Your Project
 To keep this repository organized, **all new projects must be placed in their own dedicated folder at the ROOT level of the repository.** **❌ DO NOT:**
-* Do not place your project inside the `calculator/` folder (or any other existing project's folder). 
+* Do not place your project inside  other existing project's folder.
 * Do not place your files loosely in the root directory without a containing folder.
 
 **✅ DO:**
@@ -316,24 +325,3 @@ Happy Contributing! 🚀
 
 To ensure all applications provide a consistent user experience across devices, contributors must adhere to the following mobile-first design and testing guidelines:
 
-### Minimum Supported Screen Sizes
-* **Mobile:** 320px (e.g., iPhone SE, small Android devices)
-* **Tablet:** 768px
-* **Desktop:** 1024px and above
-
-### Mobile Viewport Testing Requirements
-* Ensure the `<meta name="viewport" content="width=device-width, initial-scale=1.0">` tag is present in the `<head>` of all HTML files.
-* Test UI components using Chrome DevTools (Device Mode) or Firefox Responsive Design Mode before submitting a PR.
-* Verify that no horizontal scrolling occurs on mobile viewports (overflow-x hidden where necessary).
-
-### Touch Interaction Guidelines
-* **Touch Targets:** Buttons and interactive elements should have a minimum touch target size of 44x44 pixels.
-* **Hover States:** Do not rely solely on `:hover` states for critical interactions, as they do not translate to touch screens. Provide visible UI buttons or tap alternatives.
-
-### Browser Compatibility Matrix
-| Browser | Minimum Version | Notes |
-| :--- | :--- | :--- |
-| Google Chrome | Latest 2 versions | Primary testing target |
-| Mozilla Firefox | Latest 2 versions | |
-| Safari (iOS/Mac) | Latest 2 versions | Test touch interactions thoroughly |
-| Microsoft Edge | Latest 2 versions | |

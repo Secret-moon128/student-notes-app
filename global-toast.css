@@ -1,0 +1,61 @@
+/**
+ * Global Toast Alert styling
+ */
+.global-toast {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background-color: var(--surface, #ffffff);
+    color: var(--text, #111318);
+    border: 1px solid var(--border, #e8eaed);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    min-width: 250px;
+    max-width: 350px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.global-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-success {
+    border-left: 4px solid #10b981;
+}
+
+.toast-error {
+    border-left: 4px solid #ef4444;
+}
+
+.toast-warning {
+    border-left: 4px solid #f59e0b;
+}
+
+.toast-info {
+    border-left: 4px solid #3b82f6;
+}
+
+.toast-message {
+    flex: 1;
+}
+
+.toast-close-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--muted, #6b7280);
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+
+.toast-close-btn:hover {
+    color: var(--text, #111318);
+}

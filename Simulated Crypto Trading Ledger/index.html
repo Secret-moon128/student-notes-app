@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulated Crypto Trading Ledger</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- ─── Status row ─── -->
+    <header class="status">
+      <div class="stat">
+        <span class="s-label">Fiat Balance</span>
+        <span class="s-value" id="balance">$10,000.00</span>
+      </div>
+      <div class="stat">
+        <span class="s-label">NEXA Holdings</span>
+        <span class="s-value" id="holdings">0.0000</span>
+      </div>
+      <div class="stat">
+        <span class="s-label">Avg Entry</span>
+        <span class="s-value" id="avg-entry">$—</span>
+      </div>
+      <div class="stat">
+        <span class="s-label">Net Worth</span>
+        <span class="s-value accent" id="net-worth">$10,000.00</span>
+      </div>
+    </header>
+
+    <!-- ─── Price ticker ─── -->
+    <div class="ticker">
+      <span class="ticker-asset">NEXA</span>
+      <span class="ticker-price" id="price">$100.00</span>
+      <span class="ticker-change" id="change">+0.00%</span>
+    </div>
+
+    <!-- ─── Chart ─── -->
+    <div class="chart-wrap">
+      <canvas id="chart" width="600" height="220"></canvas>
+    </div>
+
+    <!-- ─── Trading dock ─── -->
+    <div class="dock">
+      <div class="dock-row">
+        <input type="number" class="dock-input" id="qty-input" placeholder="Quantity" step="0.01" min="0" value="1" />
+        <button class="dock-btn buy" id="buy-btn">Buy</button>
+        <button class="dock-btn sell" id="sell-btn">Sell</button>
+      </div>
+      <div class="dock-info">
+        <span>Est. Cost: <strong id="est-cost">$0.00</strong></span>
+        <span class="dock-msg" id="dock-msg"></span>
+      </div>
+    </div>
+
+    <!-- ─── Ledger ─── -->
+    <div class="ledger">
+      <div class="ledger-header">Transaction History</div>
+      <div class="ledger-scroll">
+        <table class="ledger-table" id="ledger">
+          <thead>
+            <tr><th>Type</th><th>Qty</th><th>Price</th><th>Total</th><th>Time</th></tr>
+          </thead>
+          <tbody id="ledger-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

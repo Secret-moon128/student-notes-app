@@ -1,0 +1,56 @@
+name: Validate Projects JSON
+
+on:
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'projects.json'
+
+jobs:
+  validate:
+    name: Validate projects.json structure and paths
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Validation Script
+        shell: node {0}
+        run: |
+          const fs = require('fs');
+          const path = require('path');
+
+          try {
+            const fileContent = fs.readFileSync('projects.json', 'utf8');
+            const projects = JSON.parse(fileContent);
+
+            if (!Array.isArray(projects)) {
+              console.error('Error: projects.json must be an array of project objects.');
+              process.exit(1);
+            }
+
+            for (const proj of projects) {
+              if (!proj.name || !proj.path || !proj.icon || !proj.tag) {
+                console.error(`Error: Missing required fields in project entry: ${JSON.stringify(proj)}`);
+                process.exit(1);
+              }
+
+              // Verify that the file actually exists
+              const absolutePath = path.resolve(proj.path);
+              if (!fs.existsSync(absolutePath)) {
+                console.error(`Error: Path "${proj.path}" does not exist in the repository.`);
+                process.exit(1);
+              }
+            }
+
+            console.log('Success: projects.json is valid and all paths exist!');
+          } catch (err) {
+            console.error('Validation failed:', err.message);
+            process.exit(1);
+          }

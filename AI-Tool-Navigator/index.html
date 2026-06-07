@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tool Navigator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-robot"></i>
+            <h2>AI Tool Navigator</h2>
+        </div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#analyzer">Analyzer</a>
+            <a href="#tools">Tools</a>
+            <a href="#workflow">Workflow</a>
+            <a href="#about">About</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+            <h1>Find The Perfect AI Tools For Any Project 🚀</h1>
+
+            <p>
+                Describe your project idea and get the best AI tools,
+                workflow recommendations, prompts, and resources instantly.
+            </p>
+
+            <button class="start-btn">
+                Start Exploring
+            </button>
+        </div>
+
+    </section>
+
+    <!-- Project Analyzer -->
+    <section class="analyzer" id="analyzer">
+
+        <h2>Project Analyzer</h2>
+
+        <div class="analyzer-card">
+
+            <input
+                type="text"
+                id="projectName"
+                placeholder="Project Name"
+            >
+
+            <select id="projectType">
+                <option value="">Select Project Type</option>
+                <option>Web Development</option>
+                <option>Mobile App</option>
+                <option>Research</option>
+                <option>Presentation</option>
+                <option>Cybersecurity</option>
+                <option>Data Science</option>
+                <option>UI/UX Design</option>
+                <option>Content Creation</option>
+            </select>
+
+            <textarea
+                id="projectDescription"
+                rows="6"
+                placeholder="Describe your project..."
+            ></textarea>
+
+            <button id="analyzeBtn">
+                Analyze Project
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- Recommendation Section -->
+    <section class="recommendation">
+
+        <h2>Recommended AI Tools</h2>
+
+        <div id="toolResults" class="results-container">
+
+            <div class="result-card">
+                <i class="fa-solid fa-lightbulb"></i>
+                <h3>Project Analysis Appears Here</h3>
+                <p>
+                    Enter your project details and click Analyze.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Popular Tools -->
+    <section class="tools" id="tools">
+
+        <h2>Popular AI Tools</h2>
+
+        <div class="tool-grid">
+
+            <div class="tool-card">
+                <h3>ChatGPT</h3>
+                <p>Coding, Debugging, Research</p>
+            </div>
+
+            <div class="tool-card">
+                <h3>Claude</h3>
+                <p>Documentation & Analysis</p>
+            </div>
+
+            <div class="tool-card">
+                <h3>Gemini</h3>
+                <p>Research & Learning</p>
+            </div>
+
+            <div class="tool-card">
+                <h3>Cursor</h3>
+                <p>AI Coding Assistant</p>
+            </div>
+
+            <div class="tool-card">
+                <h3>GitHub Copilot</h3>
+                <p>Code Suggestions</p>
+            </div>
+
+            <div class="tool-card">
+                <h3>Perplexity</h3>
+                <p>AI Search Engine</p>
+            </div>
+
+            <div class="tool-card">
+                <h3>Gamma</h3>
+                <p>AI Presentations</p>
+            </div>
+
+            <div class="tool-card">
+                <h3>Canva AI</h3>
+                <p>Design & Graphics</p>
+            </div>
+
+            <div class="tool-card">
+                <h3>Midjourney</h3>
+                <p>Image Generation</p>
+            </div>
+
+            <div class="tool-card">
+                <h3>Figma AI</h3>
+                <p>UI/UX Design</p>
+            </div>
+
+            <div class="tool-card">
+                <h3>ElevenLabs</h3>
+                <p>Voice Generation</p>
+            </div>
+
+            <div class="tool-card">
+                <h3>Runway</h3>
+                <p>AI Video Creation</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Workflow Generator -->
+    <section class="workflow" id="workflow">
+
+        <h2>Suggested Workflow</h2>
+
+        <div class="workflow-container">
+
+            <div class="step">
+                <span>1</span>
+                <h3>Research</h3>
+                <p>Perplexity, ChatGPT</p>
+            </div>
+
+            <div class="step">
+                <span>2</span>
+                <h3>Planning</h3>
+                <p>Claude, Notion AI</p>
+            </div>
+
+            <div class="step">
+                <span>3</span>
+                <h3>Design</h3>
+                <p>Figma AI, Canva AI</p>
+            </div>
+
+            <div class="step">
+                <span>4</span>
+                <h3>Development</h3>
+                <p>Cursor, Copilot</p>
+            </div>
+
+            <div class="step">
+                <span>5</span>
+                <h3>Testing</h3>
+                <p>ChatGPT, Claude</p>
+            </div>
+
+            <div class="step">
+                <span>6</span>
+                <h3>Deployment</h3>
+                <p>Vercel, Netlify</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Categories -->
+    <section class="categories">
+
+        <h2>Explore Categories</h2>
+
+        <div class="category-grid">
+
+            <div class="category-card">
+                💻 Coding AI
+            </div>
+
+            <div class="category-card">
+                🎨 Design AI
+            </div>
+
+            <div class="category-card">
+                📊 Data Analysis
+            </div>
+
+            <div class="category-card">
+                📄 Presentation AI
+            </div>
+
+            <div class="category-card">
+                🔍 Research AI
+            </div>
+
+            <div class="category-card">
+                🎥 Video AI
+            </div>
+
+            <div class="category-card">
+                🎤 Voice AI
+            </div>
+
+            <div class="category-card">
+                ✍️ Writing AI
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- About -->
+    <section class="about" id="about">
+
+        <h2>About AI Tool Navigator</h2>
+
+        <p>
+            AI Tool Navigator helps students, developers,
+            designers, researchers, and content creators
+            discover the best AI tools for their projects.
+        </p>
+
+        <p>
+            Simply describe your project and receive
+            personalized recommendations, workflows,
+            and AI-powered productivity suggestions.
+        </p>
+
+    </section>
+
+    <!-- Footer -->
+    <footer>
+
+        <h3>AI Tool Navigator 🚀</h3>
+
+        <p>
+            Helping creators find the right AI tools.
+        </p>
+
+        <div class="socials">
+            <i class="fab fa-github"></i>
+            <i class="fab fa-linkedin"></i>
+            <i class="fab fa-twitter"></i>
+        </div>
+
+        <p class="copyright">
+            © 2026 AI Tool Navigator. All Rights Reserved.
+        </p>
+
+    </footer>
+
+    <script src="app.js"></script>
+
+</body>
+</html>

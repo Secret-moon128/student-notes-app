@@ -1,0 +1,187 @@
+:root {
+  --bg: #0d1b2a;
+  --surface: #112d4e;
+  --surface-2: #1b4965;
+  --accent: #e0fbfc;
+  --accent-2: #f9c74f;
+  --text: #f8f1f1;
+  --muted: #b0c4de;
+  --border: rgba(255,255,255,0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, system-ui, sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at top, #1e3a5f 0%, #08101d 60%);
+}
+
+.app-shell {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 28px 20px 40px;
+}
+
+header {
+  margin-bottom: 22px;
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.status-panel {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.status-card {
+  padding: 18px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-card span {
+  color: var(--muted);
+}
+
+.status-card strong {
+  font-size: 1.4rem;
+}
+
+.flashcard-panel {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.flashcard,
+.empty-state,
+.deck-builder,
+.timeline {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 24px;
+}
+
+.flashcard {
+  display: grid;
+  gap: 20px;
+}
+
+.flashcard-label {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+}
+
+#card-question {
+  margin: 0;
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  line-height: 1.4;
+}
+
+.answer-wrapper {
+  border-top: 1px solid rgba(255,255,255,0.12);
+  padding-top: 16px;
+  color: var(--accent);
+}
+
+.answer-wrapper p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.flashcard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+button {
+  border: none;
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 0.95rem;
+  color: var(--bg);
+  background: var(--accent-2);
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.empty-state {
+  color: var(--accent);
+  font-size: 1rem;
+  min-height: 140px;
+  display: grid;
+  place-content: center;
+  text-align: center;
+}
+
+.deck-builder h2 {
+  margin-top: 0;
+}
+
+.deck-builder form {
+  display: grid;
+  gap: 16px;
+}
+
+.deck-builder label {
+  display: grid;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+textarea {
+  width: 100%;
+  min-height: 72px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  resize: vertical;
+}
+
+.timeline p {
+  margin: 0;
+  color: var(--text);
+}
+
+@media (max-width: 720px) {
+  .status-panel,
+  .flashcard-actions {
+    grid-template-columns: 1fr;
+  }
+}
