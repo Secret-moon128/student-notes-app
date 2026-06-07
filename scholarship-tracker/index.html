@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scholarly | Scholarship Tracker</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- ChartJS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+  <div class="app-container">
+    <!-- Sidebar profile and target goal -->
+    <aside class="app-sidebar" id="app-sidebar">
+      <div class="sidebar-header">
+        <div class="logo-area">
+          <div class="logo-icon">
+            <i data-lucide="graduation-cap"></i>
+          </div>
+          <div class="logo-text">
+            <h2>Scholarly</h2>
+            <span>Scholarship Hub</span>
+          </div>
+        </div>
+        <button class="btn-sidebar-close" id="sidebar-toggle-close">&times;</button>
+      </div>
+
+      <!-- User Profile Profile Info -->
+      <div class="profile-card">
+        <div class="avatar-wrapper">
+          <img id="profile-avatar" src="https://api.dicebear.com/7.x/initials/svg?seed=VM" alt="User Avatar">
+          <button id="edit-profile-btn" class="btn-edit-avatar" title="Edit Profile">
+            <i data-lucide="edit-2"></i>
+          </button>
+        </div>
+        <h3 id="profile-name">Vishwa Mistry</h3>
+        <span id="profile-bio">Undergrad Student & Scholar</span>
+      </div>
+
+      <!-- Secured Funding Goal Progress -->
+      <div class="funding-goal-section">
+        <div class="section-title-row">
+          <h3>Funding Target Goal</h3>
+          <button id="edit-goal-btn" class="btn btn-secondary btn-icon btn-sm" title="Edit Goal">
+            <i data-lucide="edit-3"></i>
+          </button>
+        </div>
+        <div class="goal-progress-wrapper">
+          <div class="goal-numbers">
+            <span class="val" id="secured-funds-value">$0</span>
+            <span class="slash">/</span>
+            <span class="target" id="target-funds-value">$20,000</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="secured-funds-bar" style="width: 0%;"></div>
+          </div>
+          <span class="lbl-status" id="goal-status-text">0% Secured</span>
+        </div>
+
+        <!-- Inline goal editor overlay -->
+        <div class="inline-goal-form" id="inline-goal-form" style="display: none;">
+          <input type="number" id="goal-target-input" min="100" step="500" placeholder="Target ($)">
+          <button class="btn btn-primary btn-sm" id="save-goal-btn">Set</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Area -->
+    <div class="workspace-wrapper">
+      <!-- Top header bar -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="btn btn-icon btn-secondary" id="sidebar-toggle-open">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="header-title-wrapper">
+            <h1>Scholarship Management</h1>
+            <p>Track deadlines, secured rewards, and required application materials</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <!-- Backup file controls -->
+          <button id="import-btn" class="btn btn-secondary btn-icon" title="Import JSON Backup">
+            <i data-lucide="upload"></i>
+          </button>
+          <input type="file" id="import-file" accept=".json" style="display: none;">
+
+          <button id="export-btn" class="btn btn-secondary btn-icon" title="Export JSON Backup">
+            <i data-lucide="download"></i>
+          </button>
+
+          <button id="reset-btn" class="btn btn-secondary btn-icon" title="Reset Database">
+            <i data-lucide="refresh-cw"></i>
+          </button>
+
+          <div class="divider"></div>
+
+          <!-- Theme toggle -->
+          <button id="theme-toggle" class="btn btn-icon" title="Toggle Theme">
+            <i data-lucide="sun" class="sun-icon"></i>
+            <i data-lucide="moon" class="moon-icon"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Scrollable workspace viewports -->
+      <main class="app-workspace">
+        
+        <!-- Top Summary Cards row -->
+        <section class="stats-row">
+          <div class="stat-card">
+            <span class="label">Total Applications</span>
+            <span class="value" id="stat-total">0</span>
+            <span class="sub" id="stat-sub-applied">0 Applied & Pending</span>
+          </div>
+
+          <div class="stat-card funds-secured">
+            <span class="label">Total Secured Funds</span>
+            <span class="value text-success" id="stat-secured-funds">$0</span>
+            <span class="sub" id="stat-sub-target">Target: $20,000</span>
+          </div>
+
+          <div class="stat-card funds-pending">
+            <span class="label">Total Potential Funds</span>
+            <span class="value text-warning" id="stat-potential-funds">$0</span>
+            <span class="sub" id="stat-sub-potential">Pending decision</span>
+          </div>
+
+          <div class="stat-card pending-card">
+            <span class="label">Success Rate</span>
+            <span class="value" id="stat-success-rate">0%</span>
+            <span class="sub" id="stat-sub-awarded">0 scholarships awarded</span>
+          </div>
+        </section>
+
+        <!-- Deadline Tracker Alerts & Charts Section -->
+        <section class="dashboard-grid">
+          <!-- Deadline Alerts Tracker -->
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3>Upcoming Deadlines</h3>
+              <i data-lucide="calendar" class="text-muted"></i>
+            </div>
+            <div class="deadline-list" id="deadline-alerts-container">
+              <!-- Dynamically injected -->
+            </div>
+          </div>
+
+          <!-- Chart.js Graphics -->
+          <div class="panel-card col-span-2">
+            <div class="panel-header">
+              <h3>Application Analytics</h3>
+              <div class="chart-toggles">
+                <button class="btn btn-sm btn-secondary active" id="btn-chart-status">Status Distribution</button>
+                <button class="btn btn-sm btn-secondary" id="btn-chart-funds">Funds Comparison</button>
+                <button class="btn btn-sm btn-secondary" id="btn-chart-types">Funding Types</button>
+              </div>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="scholarshipChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- Main Logs Database and Filters -->
+        <section class="panel-card">
+          <div class="panel-header flex-column">
+            <div class="filters-row-top">
+              <h3>Applications Registry</h3>
+              <button class="btn btn-primary btn-icon-text" id="add-scholarship-btn">
+                <i data-lucide="plus"></i>
+                <span>Add Scholarship</span>
+              </button>
+            </div>
+            <div class="filters-grid">
+              <div class="search-box">
+                <i data-lucide="search"></i>
+                <input type="text" id="log-search" placeholder="Search by name, provider, notes...">
+              </div>
+              
+              <div class="select-filters">
+                <select id="filter-status">
+                  <option value="all">All Statuses</option>
+                  <option value="Draft">Draft</option>
+                  <option value="Applied">Applied</option>
+                  <option value="Under Review">Under Review</option>
+                  <option value="Interview">Interview</option>
+                  <option value="Awarded">Awarded</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+
+                <select id="filter-type">
+                  <option value="all">All Types</option>
+                  <option value="Merit">Merit-Based</option>
+                  <option value="Need">Need-Based</option>
+                  <option value="Athletic">Athletic</option>
+                  <option value="Minority">Minority / Diverse</option>
+                  <option value="Subject">Subject / Creative</option>
+                  <option value="Other">Other</option>
+                </select>
+
+                <select id="filter-urgency">
+                  <option value="all">Sort By</option>
+                  <option value="deadline">Closest Deadline</option>
+                  <option value="amount">Highest Amount</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="logs-container" id="logs-list-container">
+            <!-- Dynamically injected -->
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: ADD / EDIT SCHOLARSHIP -->
+  <!-- ========================================== -->
+  <div class="modal-overlay" id="scholarship-modal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-title">Add Scholarship Application</h2>
+        <button class="btn-close" id="modal-close-btn">&times;</button>
+      </div>
+      <form id="scholarship-form" class="modal-form">
+        <input type="hidden" id="edit-scholarship-id">
+
+        <div class="form-grid">
+          <div class="form-group col-full">
+            <label for="form-name">Scholarship Name *</label>
+            <input type="text" id="form-name" required placeholder="e.g. National Merit Scholarship">
+          </div>
+
+          <div class="form-group col-half">
+            <label for="form-sponsor">Provider / Sponsor *</label>
+            <input type="text" id="form-sponsor" required placeholder="e.g. College Board">
+          </div>
+
+          <div class="form-group col-half">
+            <label for="form-amount">Award Amount ($) *</label>
+            <input type="number" id="form-amount" min="0" required placeholder="e.g. 5000">
+          </div>
+
+          <div class="form-group col-half">
+            <label for="form-type">Funding Type</label>
+            <select id="form-type">
+              <option value="Merit">Merit-Based</option>
+              <option value="Need">Need-Based</option>
+              <option value="Athletic">Athletic</option>
+              <option value="Minority">Minority / Diverse</option>
+              <option value="Subject">Subject / Creative</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group col-half">
+            <label for="form-deadline">Deadline Date *</label>
+            <input type="date" id="form-deadline" required>
+          </div>
+
+          <div class="form-group col-full">
+            <label for="form-link">Portal Link</label>
+            <input type="url" id="form-link" placeholder="e.g. https://www.provider.org/scholarship">
+          </div>
+
+          <div class="form-group col-full">
+            <label for="form-status">Application Status</label>
+            <select id="form-status">
+              <option value="Draft">Draft</option>
+              <option value="Applied">Applied</option>
+              <option value="Under Review">Under Review</option>
+              <option value="Interview">Interview</option>
+              <option value="Awarded">Awarded</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+
+          <!-- Document Requirements Checklist -->
+          <div class="form-group col-full">
+            <label>Required Documents / Checklist</label>
+            <div class="checkbox-options-grid">
+              <label class="check-item"><input type="checkbox" id="chk-essay" value="Essay"> Essay/Personal Statement</label>
+              <label class="check-item"><input type="checkbox" id="chk-lor" value="LOR"> Letter of Recommendation (LOR)</label>
+              <label class="check-item"><input type="checkbox" id="chk-transcript" value="Transcript"> Academic Transcript</label>
+              <label class="check-item"><input type="checkbox" id="chk-resume" value="Resume"> Resume / Portfolio</label>
+            </div>
+          </div>
+
+          <div class="form-group col-full">
+            <label for="form-notes">Notes / Essay Prompt Notes</label>
+            <textarea id="form-notes" rows="4" placeholder="Essay outlines, sponsor contacts, specific criteria details..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: EDIT PROFILE -->
+  <!-- ========================================== -->
+  <div class="modal-overlay" id="profile-modal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Update Profile Info</h2>
+        <button class="btn-close" id="profile-modal-close">&times;</button>
+      </div>
+      <form id="profile-form" class="modal-form">
+        <div class="form-group">
+          <label for="form-profile-name">Username / Nickname *</label>
+          <input type="text" id="form-profile-name" required placeholder="e.g. Vishwa Mistry">
+        </div>
+
+        <div class="form-group">
+          <label for="form-profile-bio">Bio / Title</label>
+          <input type="text" id="form-profile-bio" placeholder="e.g. Undergrad Student & Scholar">
+        </div>
+
+        <div class="form-group">
+          <label for="form-profile-avatar">Avatar URL</label>
+          <input type="url" id="form-profile-avatar" placeholder="https://api.dicebear.com/7.x/...">
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="profile-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
