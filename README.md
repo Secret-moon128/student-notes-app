@@ -18,7 +18,7 @@ NSOC'26 has been transformed into a **20 Days • 20 Projects Challenge** to pro
 
 Sorry for the inconvenience. The previous **Student Notes App** project was frequently running into large merge conflicts due to the high number of PRs. Because of that, I've changed it to **20 Days, 20 Projects**.
 
-There is no limit on project submissions. Drop your crazy frontend projects, UI designs, landing pages, components, dashboards, animations, and anything else you've built. Let's create and showcase as many projects as possible!
+Drop your crazy frontend projects, UI designs, landing pages, components, dashboards, animations, and anything else you've built. Let's create and showcase as many projects as possible!
 
 
 ---
