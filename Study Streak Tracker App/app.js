@@ -686,6 +686,13 @@ function renderAnalyticsCharts(logs) {
  * STUDY LOGS CRUD LEDGER
  * ==========================================================================
  */
+function escapeHTML(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
 function renderLogsTable() {
     const listBody = document.getElementById('logs-list-body');
     const emptyState = document.getElementById('table-empty-state');
@@ -739,12 +746,12 @@ function renderLogsTable() {
                     <td>
                         <span style="display: inline-flex; align-items: center; gap: 8px;">
                             <i class='bx ${subInfo.icon}' style="color: ${subInfo.color}; font-size: 18px;"></i>
-                            ${l.subject}
+                            ${escapeHTML(l.subject)}
                         </span>
                     </td>
                     <td class="amount">${formatMinutes(l.duration)}</td>
                     <td>
-                        <div style="font-weight: 500;">${l.note || '—'}</div>
+                        <div style="font-weight: 500;">${escapeHTML(l.note) || '—'}</div>
                     </td>
                     <td class="text-center">
                         <div class="action-buttons">
