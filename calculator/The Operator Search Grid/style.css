@@ -1,0 +1,302 @@
+/* ═══════════════════════════════════════════════════════
+   The Operator Search Grid — Cyberpunk Dark Dashboard
+   ═══════════════════════════════════════════════════════ */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-body: #080b11;
+  --bg-surface: rgba(30, 41, 59, 0.4);
+  --bg-card: rgba(255, 255, 255, 0.02);
+  --border: rgba(51, 65, 85, 0.4);
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+  --gold: #eab308;
+  --gold-glow: rgba(234, 179, 8, 0.25);
+  --emerald: #10b981;
+  --emerald-glow: rgba(16, 185, 129, 0.3);
+  --crimson: #ef4444;
+  --crimson-glow: rgba(239, 68, 68, 0.3);
+  --cyan: #06b6d4;
+  --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg-body);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-image:
+    radial-gradient(ellipse at 50% 20%, rgba(6, 182, 212, 0.02) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 90%, rgba(234, 179, 8, 0.015) 0%, transparent 50%);
+}
+
+/* ─── Telemetry ─── */
+.telemetry {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 20px;
+  background: var(--bg-surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 520px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stat-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  min-width: 50px;
+}
+
+.stat-label {
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+}
+
+.stat-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.timer-block {
+  flex: 1;
+  min-width: 100px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.timer-bar {
+  height: 100%;
+  width: 100%;
+  background: var(--cyan);
+  border-radius: 6px;
+  transition: width 0.3s linear;
+  box-shadow: 0 0 10px var(--cyan);
+}
+
+.timer-bar.danger {
+  background: var(--crimson);
+  box-shadow: 0 0 10px var(--crimson-glow);
+}
+
+/* ─── Equation Area ─── */
+.equation-area {
+  margin-top: 24px;
+  padding: 20px 24px;
+  background: var(--bg-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.equation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: clamp(1.2rem, 5vmin, 2rem);
+  font-weight: 700;
+}
+
+.num-block {
+  padding: 6px 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+}
+
+.slot-block {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 2px dashed var(--text-muted);
+  border-radius: 10px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--gold);
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.slot-block.filled {
+  border-style: solid;
+  border-color: var(--gold);
+  background: rgba(234, 179, 8, 0.08);
+  box-shadow: 0 0 12px var(--gold-glow);
+}
+
+.result-target {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-shadow: 0 0 20px var(--gold-glow);
+}
+
+/* ─── Operator Grid ─── */
+.grid-wrap {
+  margin-top: 18px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.op-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.op-btn {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.op-btn:hover {
+  background: rgba(30, 41, 59, 0.6);
+  border-color: var(--text-muted);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.op-btn:active {
+  transform: scale(0.93);
+}
+
+.op-btn.used {
+  opacity: 0.25;
+  pointer-events: none;
+  transform: scale(0.9);
+}
+
+/* ─── Feedback ─── */
+.feedback {
+  margin-top: 14px;
+  height: 32px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  transition: opacity 0.3s ease;
+}
+
+.feedback.correct {
+  color: var(--emerald);
+  text-shadow: 0 0 16px var(--emerald-glow);
+}
+
+.feedback.wrong {
+  color: var(--crimson);
+  animation: shake 0.4s ease;
+}
+
+.feedback.timeout {
+  color: var(--crimson);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+/* ─── Controls ─── */
+.controls {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-control {
+  background: var(--bg-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 22px;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-family: var(--font);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  letter-spacing: 0.3px;
+}
+
+.btn-control:hover {
+  border-color: rgba(148, 163, 184, 0.3);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.btn-control:active {
+  transform: scale(0.97);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 480px) {
+  body { padding: 14px; justify-content: flex-start; padding-top: 24px; }
+
+  .telemetry { gap: 10px; padding: 10px 14px; }
+
+  .stat-value { font-size: 1rem; }
+
+  .equation-area { padding: 14px 16px; margin-top: 16px; }
+
+  .slot-block { width: 40px; height: 40px; font-size: 1rem; }
+
+  .op-grid { gap: 6px; }
+
+  .op-btn { font-size: 1.3rem; border-radius: 10px; }
+
+  .controls { flex-wrap: wrap; justify-content: center; }
+}
