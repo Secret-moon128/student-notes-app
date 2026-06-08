@@ -23,21 +23,42 @@ function generatePassword() {
   let passwordArr = [];
   let allChars = '';
 
+        locker
+  const getSecureRandomIndex = (max) => {
+    const randomValues = new Uint32Array(1);
+    window.crypto.getRandomValues(randomValues);
+    return randomValues[0] % max;
+  };
+
+  // Guarantee at least one character from each selected set
+  selectedSets.forEach(set => {
+    passwordArr.push(set[getSecureRandomIndex(set.length)]);
+
   // Guarantee at least one character from each selected set
   selectedSets.forEach(set => {
     passwordArr.push(set[Math.floor(Math.random() * set.length)]);
+        main
     allChars += set;
   });
 
   // Fill the remaining length from the combined pool
   const remainingLength = length - passwordArr.length;
   for (let i = 0; i < remainingLength; i++) {
+        locker
+    passwordArr.push(allChars[getSecureRandomIndex(allChars.length)]);
+  }
+
+  // Fisher-Yates Shuffle using Secure Randomness
+  for (let i = passwordArr.length - 1; i > 0; i--) {
+    const j = getSecureRandomIndex(i + 1);
+
     passwordArr.push(allChars[Math.floor(Math.random() * allChars.length)]);
   }
 
   // Fisher-Yates Shuffle
   for (let i = passwordArr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
+        main
     [passwordArr[i], passwordArr[j]] = [passwordArr[j], passwordArr[i]];
   }
 
