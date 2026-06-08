@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <rect width="128" height="128" rx="16" fill="#080b11"/>
+  <g transform="translate(8,8)">
+    <rect x="0" y="0" width="112" height="18" rx="8" fill="rgba(30,41,59,0.4)" stroke="rgba(51,65,85,0.4)" stroke-width="0.5"/>
+    <text x="12" y="12" font-size="5" fill="#475569" font-family="sans-serif" letter-spacing="1">SCORE</text>
+    <text x="12" y="6" font-size="7" fill="#e2e8f0" font-weight="700" font-family="sans-serif">42</text>
+    <text x="48" y="12" font-size="5" fill="#475569" font-family="sans-serif" letter-spacing="1">STREAK</text>
+    <text x="48" y="6" font-size="7" fill="#e2e8f0" font-weight="700" font-family="sans-serif">3</text>
+    <rect x="80" y="4" width="26" height="4" rx="2" fill="rgba(255,255,255,0.04)"/>
+    <rect x="80" y="4" width="18" height="4" rx="2" fill="#06b6d4"/>
+  </g>
+  <g transform="translate(14,36)">
+    <rect x="0" y="0" width="100" height="24" rx="8" fill="rgba(30,41,59,0.4)" stroke="rgba(51,65,85,0.4)" stroke-width="0.5"/>
+    <text x="8" y="16" font-size="10" fill="#e2e8f0" font-weight="700" font-family="sans-serif">5</text>
+    <rect x="24" y="4" width="20" height="18" rx="5" fill="rgba(255,255,255,0.02)" stroke="rgba(71,85,105,0.6)" stroke-width="1.5" stroke-dasharray="3"/>
+    <text x="34" y="16" font-size="9" fill="#eab308" text-anchor="middle" font-weight="700" font-family="sans-serif">?</text>
+    <text x="50" y="16" font-size="10" fill="#e2e8f0" font-weight="700" font-family="sans-serif">2</text>
+    <rect x="66" y="4" width="20" height="18" rx="5" fill="rgba(255,255,255,0.02)" stroke="rgba(71,85,105,0.6)" stroke-width="1.5" stroke-dasharray="3"/>
+    <text x="76" y="16" font-size="9" fill="#eab308" text-anchor="middle" font-weight="700" font-family="sans-serif">?</text>
+    <text x="92" y="16" font-size="10" fill="#e2e8f0" font-weight="700" font-family="sans-serif">4</text>
+  </g>
+  <text x="64" y="70" font-size="10" fill="#eab308" text-anchor="middle" font-weight="700" font-family="sans-serif" text-shadow="0 0 8px rgba(234,179,8,0.3)">= 14</text>
+  <g transform="translate(14,80)">
+    <g transform="translate(0,0)">
+      <rect x="0" y="0" width="22" height="22" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(51,65,85,0.4)" stroke-width="0.8"/>
+      <text x="11" y="15" font-size="11" fill="#94a3b8" text-anchor="middle" font-weight="700" font-family="sans-serif">+</text>
+    </g>
+    <g transform="translate(26,0)">
+      <rect x="0" y="0" width="22" height="22" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(51,65,85,0.4)" stroke-width="0.8"/>
+      <text x="11" y="15" font-size="11" fill="#94a3b8" text-anchor="middle" font-weight="700" font-family="sans-serif">−</text>
+    </g>
+    <g transform="translate(52,0)">
+      <rect x="0" y="0" width="22" height="22" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(51,65,85,0.4)" stroke-width="0.8"/>
+      <text x="11" y="15" font-size="11" fill="#94a3b8" text-anchor="middle" font-weight="700" font-family="sans-serif">×</text>
+    </g>
+    <g transform="translate(78,0)">
+      <rect x="0" y="0" width="22" height="22" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(51,65,85,0.4)" stroke-width="0.8"/>
+      <text x="11" y="15" font-size="11" fill="#94a3b8" text-anchor="middle" font-weight="700" font-family="sans-serif">÷</text>
+    </g>
+    <g transform="translate(0,26)">
+      <rect x="0" y="0" width="22" height="22" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(51,65,85,0.4)" stroke-width="0.8"/>
+      <text x="11" y="15" font-size="11" fill="#94a3b8" text-anchor="middle" font-weight="700" font-family="sans-serif">÷</text>
+    </g>
+    <g transform="translate(26,26)">
+      <rect x="0" y="0" width="22" height="22" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(51,65,85,0.4)" stroke-width="0.8"/>
+      <text x="11" y="15" font-size="11" fill="#94a3b8" text-anchor="middle" font-weight="700" font-family="sans-serif">×</text>
+    </g>
+    <g transform="translate(52,26)">
+      <rect x="0" y="0" width="22" height="22" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(51,65,85,0.4)" stroke-width="0.8"/>
+      <text x="11" y="15" font-size="11" fill="#94a3b8" text-anchor="middle" font-weight="700" font-family="sans-serif">+</text>
+    </g>
+    <g transform="translate(78,26)">
+      <rect x="0" y="0" width="22" height="22" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(51,65,85,0.4)" stroke-width="0.8"/>
+      <text x="11" y="15" font-size="11" fill="#94a3b8" text-anchor="middle" font-weight="700" font-family="sans-serif">−</text>
+    </g>
+  </g>
+  <g transform="translate(20,114)">
+    <rect x="0" y="0" width="40" height="8" rx="4" fill="rgba(30,41,59,0.4)" stroke="rgba(51,65,85,0.4)" stroke-width="0.5"/>
+    <text x="20" y="6" font-size="3.5" fill="#94a3b8" text-anchor="middle" font-family="sans-serif">↺ CLEAR</text>
+  </g>
+  <g transform="translate(68,114)">
+    <rect x="0" y="0" width="40" height="8" rx="4" fill="rgba(30,41,59,0.4)" stroke="rgba(51,65,85,0.4)" stroke-width="0.5"/>
+    <text x="20" y="6" font-size="3.5" fill="#94a3b8" text-anchor="middle" font-family="sans-serif">⏭ SKIP</text>
+  </g>
+</svg>
