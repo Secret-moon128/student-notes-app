@@ -25,6 +25,7 @@ exports.getPatterns = (req, res) => {
  * GET /api/patterns/:id
  * Returns specific pattern with LeetCode problem statistics
  * Isolates external API failures using Promise.allSettled for graceful degradation
+ * Implements graceful fallback if LeetCode API fails for individual problems
  */
 exports.getPatternDetails = async (req, res) => {
   const { id } = req.params;
@@ -54,6 +55,7 @@ exports.getPatternDetails = async (req, res) => {
   try {
     // Fetch problem stats with error isolation
     // Use Promise.allSettled to handle individual problem failures without failing entire request
+    // Fetch problem stats with graceful fallback for failures
     const problemsWithStats = await Promise.allSettled(
       pattern.problems.map(async (slug) => {
         const stats = await fetchLeetCodeProblem(slug);
@@ -83,12 +85,7 @@ exports.getPatternDetails = async (req, res) => {
         if (result.status === 'fulfilled') {
           return result.value;
         } else {
-          // External API call rejected
-          failedProblems.push({
-            titleSlug: pattern.problems[index],
-            error: result.reason?.message || 'Unknown error'
-          });
-
+          failedProblems.push(pattern.problems[index]);
           // Return fallback for failed problem
           return {
             questionId: 'unknown',
