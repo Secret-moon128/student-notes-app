@@ -540,6 +540,53 @@
       }
     }
   </script>
+  <!-- Settings Modal for Backup/Restore -->
+  <div id="settings-modal" style="display:none; position:fixed; top:20%; left:50%; transform:translate(-50%, 0); background:#fff; padding:20px; border:1px solid #ccc; z-index:1000; box-shadow:0 4px 6px rgba(0,0,0,0.1);">
+      <h2>Data Management</h2>
+      <button id="backup-btn">Backup Data</button>
+      <button id="restore-btn" onclick="document.getElementById('import-file').click()">Restore Data</button>
+      <input type="file" id="import-file" style="display:none" accept=".json">
+      <button onclick="document.getElementById('settings-modal').style.display='none'" style="margin-top:10px;">Close</button>
+  </div>
+  <button onclick="document.getElementById('settings-modal').style.display='block'" style="position:fixed; bottom:10px; right:10px; z-index:999;">⚙️ Settings</button>
+
+  <script>
+      // Export Logic
+      document.getElementById('backup-btn').addEventListener('click', () => {
+          const data = JSON.stringify(localStorage);
+          const blob = new Blob([data], {type: 'application/json'});
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'app_backup.json';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+      });
+
+      // Import Logic
+      document.getElementById('import-file').addEventListener('change', (event) => {
+          const file = event.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (e) => {
+              try {
+                  const data = JSON.parse(e.target.result);
+                  localStorage.clear();
+                  for (let key in data) {
+                      localStorage.setItem(key, data[key]);
+                  }
+                  alert('Data restored successfully!');
+                  location.reload();
+              } catch (err) {
+                  alert('Invalid backup file.');
+                  console.error(err);
+              }
+          };
+          reader.readAsText(file);
+      });
+  </script>
   <script src="grid-renderer.js"></script>
 </body>
 </html>
