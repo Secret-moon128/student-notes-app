@@ -325,3 +325,32 @@ Happy Contributing! 🚀
 
 To ensure all applications provide a consistent user experience across devices, contributors must adhere to the following mobile-first design and testing guidelines:
 
+### LocalStorage Utility Standard
+When implementing `localStorage` across any component, you **must** use `try/catch` blocks to prevent the application from crashing if the browser's storage quota is exceeded or if storage is restricted (e.g., in Private/Incognito mode).
+
+Use the following standard utility pattern for all LocalStorage interactions:
+
+\`\`\`javascript
+const StorageUtil = {
+  set(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (error) {
+      console.error('LocalStorage quota exceeded or unavailable:', error);
+      // Optional: Alert the user or fallback to memory storage
+      return false;
+    }
+  },
+  get(key, defaultValue = null) {
+    try {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : defaultValue;
+    } catch (error) {
+      console.error('Error reading from LocalStorage:', error);
+      return defaultValue;
+    }
+  }
+};
+\`\`\`
+
